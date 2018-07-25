@@ -5,7 +5,6 @@ import java.util.UUID;
 
 public class Todo {
 
-
     private String mId;
 
     private String mTitle;

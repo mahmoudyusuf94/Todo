@@ -19,6 +19,7 @@ public interface TodoDbIF {
 
     Date getTodoDate(String id);
 
-    void SetTodoDate(String id, Date date);
+    void setTodoDate(String id, Date date);
 
+    int getTodosCount();
 }
