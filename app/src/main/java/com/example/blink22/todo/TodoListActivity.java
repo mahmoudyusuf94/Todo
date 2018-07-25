@@ -1,13 +1,13 @@
 package com.example.blink22.todo;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class TodoListActivity extends AppCompatActivity {
+public class TodoListActivity extends SingleFragmentActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_todo_list);
+    protected Fragment createFragment() {
+        return new TodoListFragment();
     }
 }
