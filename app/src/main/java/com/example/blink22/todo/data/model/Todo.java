@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class Todo {
 
+
     private String mId;
 
     private String mTitle;
@@ -14,6 +15,14 @@ public class Todo {
     private Date mDate;
 
     private boolean mDone;
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
+    }
 
     public String getTitle() {
         return mTitle;
@@ -46,5 +55,7 @@ public class Todo {
     public void setDone(boolean done) {
         mDone = done;
     }
+
+
 
 }
