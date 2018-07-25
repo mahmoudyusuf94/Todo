@@ -55,6 +55,11 @@ public class Todo {
         mDone = done;
     }
 
+    public Todo(String title, Date date, boolean done){
+        mTitle = title;
+        mDate = date;
+        mDone = done;
+    }
 
 
 }

@@ -3,6 +3,7 @@ package com.example.blink22.todo.data;
 import com.example.blink22.todo.data.model.Todo;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,12 @@ public class TodoDb implements TodoDbIF{
     private List<Todo> mTodos;
 
     public TodoDb(){
+        Calendar today = Calendar.getInstance();
+        Date date = today.getTime();
         mTodos = new ArrayList<Todo>();
+        mTodos.add(new Todo("Todo 1", date, false));
+        mTodos.add(new Todo("Todo 2", date, false));
+        mTodos.add(new Todo("Todo 3", date, false));
     }
 
     @Override
