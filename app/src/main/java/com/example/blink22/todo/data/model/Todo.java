@@ -1,5 +1,6 @@
 package com.example.blink22.todo.data.model;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -60,6 +61,11 @@ public class Todo {
         mTitle = title;
         mDate = date;
         mDone = done;
+    }
+
+    public Todo(){
+        mId = UUID.randomUUID().toString();
+        mDate = Calendar.getInstance().getTime();
     }
 
 

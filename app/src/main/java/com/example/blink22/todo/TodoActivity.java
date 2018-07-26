@@ -27,4 +27,6 @@ public class TodoActivity extends SingleFragmentActivity {
         mTodoId = getIntent().getStringExtra(EXTRA_TODO_ID);
         super.onCreate(savedInstanceState);
     }
+
+
 }
