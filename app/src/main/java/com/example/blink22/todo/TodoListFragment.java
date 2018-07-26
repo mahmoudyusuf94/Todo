@@ -28,15 +28,6 @@ public class TodoListFragment extends Fragment implements ListView{
     @BindView(R.id.todo_list_recycler_view)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawerLayout;
-
-    @BindView(R.id.nav_view)
-    NavigationView mNavigationView;
-
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-
     TodoAdapter mAdapter;
 
     @Nullable
@@ -51,40 +42,13 @@ public class TodoListFragment extends Fragment implements ListView{
 
         ButterKnife.bind(this, v);
 
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        ActionBar actionbar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if(mAdapter == null){
             mAdapter = new TodoAdapter(mTodoListPresenter);
         }
         mRecyclerView.setAdapter(mAdapter);
 
-        mNavigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
-
-                        //open new activity or something else;
-                        return true;
-                    }
-                }
-        );
         return v;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
