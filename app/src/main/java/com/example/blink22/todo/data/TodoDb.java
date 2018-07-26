@@ -9,15 +9,17 @@ import java.util.List;
 
 public class TodoDb implements TodoDbIF{
 
-    private List<Todo> mTodos;
+    private static List<Todo> mTodos;
 
     public TodoDb(){
         Calendar today = Calendar.getInstance();
         Date date = today.getTime();
-        mTodos = new ArrayList<Todo>();
-        mTodos.add(new Todo("Todo 1", date, false));
-        mTodos.add(new Todo("Todo 2", date, false));
-        mTodos.add(new Todo("Todo 3", date, false));
+        if(mTodos == null){
+            mTodos = new ArrayList<Todo>();
+            mTodos.add(new Todo("Todo 1", date, false));
+            mTodos.add(new Todo("Todo 2", date, false));
+            mTodos.add(new Todo("Todo 3", date, false));
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.blink22.todo;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
         return mPresenter.getTodoCount();
     }
 
-    class TodoHolder extends RecyclerView.ViewHolder implements Holder{
+    class TodoHolder extends RecyclerView.ViewHolder implements Holder, View.OnClickListener{
+
+        Todo mTodo;
 
         @BindView(R.id.list_item_todo_title_text_view)
         TextView mTitleTextView;
@@ -52,6 +55,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
 
         public TodoHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
         }
 
@@ -68,6 +72,18 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
         @Override
         public void setDate(String date) {
             mDateTextView.setText(date);
+        }
+
+
+        @Override
+        public void setTodo(Todo todo) {
+            mTodo = todo;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.i("fuck", "HERE == null ? " + mTodo.getId() );
+            mPresenter.showTodoDetails(view.getContext(), mTodo.getId());
         }
     }
 }

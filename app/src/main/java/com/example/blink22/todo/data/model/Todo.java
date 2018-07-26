@@ -56,6 +56,7 @@ public class Todo {
     }
 
     public Todo(String title, Date date, boolean done){
+        mId = UUID.randomUUID().toString();
         mTitle = title;
         mDate = date;
         mDone = done;
