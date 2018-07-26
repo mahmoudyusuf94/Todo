@@ -149,16 +149,6 @@ public class TodoFragment extends Fragment implements DetailsView {
         getActivity().onBackPressed();
     }
 
-    public static TodoFragment newInstance(String todoId){
-        TodoFragment fragment = new TodoFragment();
-        if(todoId!=null){
-            Bundle args = new Bundle();
-            args.putString(ARG_TODO_ID, todoId);
-            fragment.setArguments(args);
-        }
-        return fragment;
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode != Activity.RESULT_OK){
@@ -170,6 +160,16 @@ public class TodoFragment extends Fragment implements DetailsView {
             mPresenter.updateDateButton(date);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static TodoFragment newInstance(String todoId){
+        TodoFragment fragment = new TodoFragment();
+        if(todoId!=null){
+            Bundle args = new Bundle();
+            args.putString(ARG_TODO_ID, todoId);
+            fragment.setArguments(args);
+        }
+        return fragment;
     }
 
     private CharSequence formatDate(Date date){

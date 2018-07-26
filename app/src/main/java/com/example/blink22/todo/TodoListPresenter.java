@@ -3,6 +3,7 @@ package com.example.blink22.todo;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 
@@ -10,6 +11,7 @@ import com.example.blink22.todo.data.TodoDb;
 import com.example.blink22.todo.data.TodoDbIF;
 import com.example.blink22.todo.data.model.Todo;
 
+import java.util.Date;
 import java.util.List;
 
 public class TodoListPresenter implements ListPresenter{
@@ -29,7 +31,7 @@ public class TodoListPresenter implements ListPresenter{
 
         todoHolder.setTitle(todo.getTitle());
         todoHolder.setDone(todo.isDone());
-        todoHolder.setDate(todo.getDate().toString());
+        todoHolder.setDate(formatDate(todo.getDate()).toString());
         todoHolder.setTodo(todo);
     }
 
@@ -45,5 +47,9 @@ public class TodoListPresenter implements ListPresenter{
     public void notifyDataChanged() {
         mTodos = mDb.getAllTodos();
         mView.updateAdapter();
+    }
+
+    private CharSequence formatDate(Date date){
+        return DateFormat.format("EEEE, MMMM dd, yyyy",date);
     }
 }

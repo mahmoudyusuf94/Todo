@@ -2,6 +2,7 @@ package com.example.blink22.todo;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.blink22.todo.data.model.Todo;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,4 +88,5 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
             mPresenter.showTodoDetails(view.getContext(), mTodo.getId());
         }
     }
+
 }
