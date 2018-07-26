@@ -16,9 +16,9 @@ import butterknife.ButterKnife;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
 
-    private TodoListPresenter mPresenter;
+    private ListPresenter mPresenter;
 
-    public TodoAdapter(TodoListPresenter presenter){
+    public TodoAdapter(ListPresenter presenter){
         mPresenter = presenter;
     }
 
@@ -82,7 +82,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
 
         @Override
         public void onClick(View view) {
-            Log.i("fuck", "HERE == null ? " + mTodo.getId() );
             mPresenter.showTodoDetails(view.getContext(), mTodo.getId());
         }
     }

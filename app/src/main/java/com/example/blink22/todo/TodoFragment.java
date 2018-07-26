@@ -78,9 +78,9 @@ public class TodoFragment extends Fragment implements DetailsView {
 
         if(args != null){
             mTodoId = getArguments().getString(ARG_TODO_ID);
-            mTodo = mPresenter.prepareTodoView(mTodoId);
-            mTodoExists = (mTodo.getTitle() != null);
         }
+        mTodo = mPresenter.prepareTodoView(mTodoId);
+        mTodoExists = (mTodo.getTitle() != null);
 
         mTitleEditText.addTextChangedListener(new TextWatcher() {
             @Override

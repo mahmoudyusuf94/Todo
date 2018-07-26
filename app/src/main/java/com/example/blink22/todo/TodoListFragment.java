@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class TodoListFragment extends Fragment implements ListView{
 
-    private static TodoListPresenter mTodoListPresenter;
+    private static ListPresenter mTodoListPresenter;
 
     @BindView(R.id.todo_list_recycler_view)
     RecyclerView mRecyclerView;
@@ -55,5 +55,19 @@ public class TodoListFragment extends Fragment implements ListView{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
+    public void updateAdapter() {
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        if(mAdapter != null){
+            mTodoListPresenter.notifyDataChanged();
+        }
+        super.onResume();
     }
 }

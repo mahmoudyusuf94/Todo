@@ -31,7 +31,6 @@ public class TodoListPresenter implements ListPresenter{
         todoHolder.setDone(todo.isDone());
         todoHolder.setDate(todo.getDate().toString());
         todoHolder.setTodo(todo);
-        Log.i("date", todo.getDate().toString());
     }
 
     public int getTodoCount() {
@@ -41,5 +40,10 @@ public class TodoListPresenter implements ListPresenter{
     public void showTodoDetails(Context context, String id) {
         Intent intent = TodoActivity.newIntent(context, id);
         context.startActivity(intent);
+    }
+
+    public void notifyDataChanged() {
+        mTodos = mDb.getAllTodos();
+        mView.updateAdapter();
     }
 }

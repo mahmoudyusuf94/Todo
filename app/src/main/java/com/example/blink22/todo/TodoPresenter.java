@@ -40,12 +40,12 @@ public class TodoPresenter implements DetailsPresenter{
 
     @Override
     public void doneTodo( Todo todo, boolean exists) {
-
-    }
-
-    @Override
-    public void changeDate(Context context, Date date) {
-
+        if(exists){
+            db.updateTodo(todo);
+        }else{
+            db.insertTodo(todo);
+        }
+        mView.cancel();
     }
 
     @Override

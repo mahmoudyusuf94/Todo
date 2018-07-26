@@ -11,6 +11,5 @@ public interface DetailsPresenter {
     Todo prepareTodoView(String todoId);
     void cancelTodo();
     void doneTodo( Todo todo, boolean exists);
-    void changeDate(Context context, Date date);
     void updateDateButton(Date date);
 }

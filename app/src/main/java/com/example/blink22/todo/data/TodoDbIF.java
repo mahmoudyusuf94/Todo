@@ -11,6 +11,10 @@ public interface TodoDbIF {
 
     Todo getTodo(String id);
 
+    void updateTodo(Todo todo);
+
+    void insertTodo (Todo todo);
+
     void setTodoTitle(String id, String title);
 
     void setTodoDescription(String id, String description);

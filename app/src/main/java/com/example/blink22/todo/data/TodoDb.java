@@ -103,4 +103,21 @@ public class TodoDb implements TodoDbIF{
     public int getTodosCount() {
         return mTodos.size();
     }
+
+    @Override
+    public void insertTodo(Todo todo) {
+        mTodos.add(todo);
+    }
+
+    @Override
+    public void updateTodo(Todo todo) {
+        int index = 0;
+        for(Todo temp:mTodos){
+            if(todo.getId().equals(temp.getId())){
+                mTodos.set(index, todo);
+                return;
+            }
+            index++;
+        }
+    }
 }
