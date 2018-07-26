@@ -1,5 +1,6 @@
 package com.example.blink22.todo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -31,12 +32,18 @@ public abstract class SingleFragmentActivity extends AppCompatActivity  {
     Toolbar mToolbar;
 
     protected abstract Fragment createFragment();
+    private SingleFragmentActivityPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
+
+        mPresenter = new SingleFragmentActivityPresenter(this);
+
         ButterKnife.bind(this);
+
 
         setSupportActionBar(mToolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -49,8 +56,13 @@ public abstract class SingleFragmentActivity extends AppCompatActivity  {
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
-
-                        //open new activity or something else;
+                        switch(menuItem.getItemId()){
+                            case R.id.menu_item_add_todo:
+                                mPresenter.addTodoSelected();
+                            case R.id.menu_item_list_todos:
+                                mPresenter.listTodosSelected();
+                        }
+                        //start new activity or something else;
                         return true;
                     }
                 }
@@ -75,5 +87,16 @@ public abstract class SingleFragmentActivity extends AppCompatActivity  {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void showTodoList(){
+        Intent intent = new Intent(this, TodoListActivity.class);
+        startActivity(intent);
+    }
+
+    public void showAddTodo(){
+//        Intent intent = new Intent(this, TodoListActivity.class);
+//        startActivity(intent);
     }
 }
