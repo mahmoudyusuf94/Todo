@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -59,10 +58,11 @@ public abstract class SingleFragmentActivity extends AppCompatActivity  {
                         switch(menuItem.getItemId()){
                             case R.id.menu_item_add_todo:
                                 mPresenter.addTodoSelected();
-                            case R.id.menu_item_list_todos:
-                                mPresenter.listTodosSelected();
+                                break;
+                            case R.id.menu_item_list_todo:
+                                mPresenter.listTodoSelected();
+                                break;
                         }
-                        //start new activity or something else;
                         return true;
                     }
                 }
@@ -96,7 +96,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity  {
     }
 
     public void showAddTodo(){
-//        Intent intent = new Intent(this, TodoListActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, TodoActivity.class);
+        startActivity(intent);
     }
 }

@@ -13,7 +13,7 @@ public class SingleFragmentActivityPresenter {
         mActivity.showAddTodo();
     }
 
-    public void listTodosSelected(){
+    public void listTodoSelected(){
         mActivity.showTodoList();
     }
 }
