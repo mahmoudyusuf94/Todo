@@ -14,6 +14,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class TodoFragment extends Fragment implements DetailsView {
 
@@ -34,6 +35,10 @@ public class TodoFragment extends Fragment implements DetailsView {
     @BindView(R.id.todo_cancel_button)
     Button mCancelButton;
 
+    @OnClick(R.id.todo_cancel_button)
+    public void onCancelClick(){
+        mPresenter.cancelTodo();
+    }
 
     @Nullable
     @Override
@@ -75,6 +80,11 @@ public class TodoFragment extends Fragment implements DetailsView {
     @Override
     public void setTodoDateButton(Date date) {
         mDateButton.setText(date.toString());
+    }
+
+    @Override
+    public void cancel() {
+        getActivity().onBackPressed();
     }
 
     public static TodoFragment newInstance(String todoId){

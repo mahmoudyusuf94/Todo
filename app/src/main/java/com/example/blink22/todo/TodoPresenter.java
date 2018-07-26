@@ -26,4 +26,9 @@ public class TodoPresenter implements DetailsPresenter{
             }
         }
     }
+
+    @Override
+    public void cancelTodo() {
+        mView.cancel();
+    }
 }
