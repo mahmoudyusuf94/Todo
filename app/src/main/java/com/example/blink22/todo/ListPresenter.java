@@ -10,4 +10,6 @@ public interface ListPresenter {
     int getTodoCount();
     void showTodoDetails(Context context, String id);
     void deleteTodo(Todo todo);
+    void doneTodo(String todoId, TodoAdapter.TodoHolder todoHolder);
+    void undoneTodo(String todoId, TodoAdapter.TodoHolder todoHolder);
 }

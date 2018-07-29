@@ -28,8 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:src="@drawable/ic_delete"
-            android:id="@+id/list_item_todo_delete_icon"
-            />
+            android:id="@+id/list_item_todo_delete_icon" />
 
     </LinearLayout>
 

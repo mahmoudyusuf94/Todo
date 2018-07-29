@@ -15,4 +15,6 @@ public interface TodoDb {
     void insertTodo (Todo todo);
 
     void deleteTodo(String todoId);
+
+    List<Todo> getAllDoneTodos();
 }

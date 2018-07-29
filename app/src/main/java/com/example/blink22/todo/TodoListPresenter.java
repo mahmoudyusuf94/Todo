@@ -30,6 +30,11 @@ public class TodoListPresenter implements ListPresenter{
         todoHolder.setDone(todo.isDone());
         todoHolder.setDate(formatDate(todo.getDate()).toString());
         todoHolder.setTodo(todo);
+        if(todo.isDone()){
+            todoHolder.markDone();
+        }else{
+            todoHolder.markUndone();
+        }
     }
 
     public int getTodoCount() {
@@ -45,6 +50,22 @@ public class TodoListPresenter implements ListPresenter{
     public void deleteTodo(Todo todo) {
         mDb.deleteTodo(todo.getId());
         notifyDataChanged();
+    }
+
+    @Override
+    public void doneTodo(String todoId, TodoAdapter.TodoHolder todoHolder) {
+        Todo todo = mDb.getTodo(todoId);
+        todo.setDone(true);
+        mDb.updateTodo(todo);
+        todoHolder.markDone();
+    }
+
+    @Override
+    public void undoneTodo(String todoId, TodoAdapter.TodoHolder todoHolder) {
+        Todo todo = mDb.getTodo(todoId);
+        todo.setDone(false);
+        mDb.updateTodo(todo);
+        todoHolder.markUndone();
     }
 
     public void notifyDataChanged() {

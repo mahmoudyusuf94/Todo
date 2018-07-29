@@ -7,4 +7,6 @@ public interface Holder {
     void setDone(boolean done);
     void setDate(String date);
     void setTodo(Todo todo);
+    void markDone();
+    void markUndone();
 }

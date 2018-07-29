@@ -10,6 +10,8 @@ import io.realm.Realm;
 
 public class TodoDataManager implements TodoDb {
 
+    public static final boolean NOT_DONE = false;
+    public static final boolean DONE = true;
     private static TodoDataManager dbSingletonInstance;
 
     private static Realm realm;
@@ -64,8 +66,9 @@ public class TodoDataManager implements TodoDb {
         realm.commitTransaction();
     }
 
-    private Todo getRealmTodo(String id){
-        return realm.copyFromRealm(realm.where(Todo.class).equalTo(Todo.ID_FIELD_NAME, id).findFirst());
+    @Override
+    public List<Todo> getAllDoneTodos() {
+        return realm.where(Todo.class).equalTo(Todo.DONE_FIELD_NAME, DONE).findAll();
     }
 
 }

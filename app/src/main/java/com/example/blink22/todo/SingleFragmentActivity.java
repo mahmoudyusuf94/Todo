@@ -53,7 +53,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity  {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        menuItem.setChecked(true);
+//                        menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         switch(menuItem.getItemId()){
                             case R.id.menu_item_add_todo:

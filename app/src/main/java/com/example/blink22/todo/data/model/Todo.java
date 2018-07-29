@@ -12,6 +12,8 @@ public class Todo extends RealmObject {
 
     @Ignore
     public static final String ID_FIELD_NAME = "id";
+    @Ignore
+    public static final String DONE_FIELD_NAME = "done";
 
     @PrimaryKey
     private String id;

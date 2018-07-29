@@ -1,5 +1,6 @@
 package com.example.blink22.todo;
 
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.blink22.todo.data.model.Todo;
@@ -20,6 +22,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
+
+    private static final float TRANSPARENT = 0.5f;
+    private static final float SOLID = 1;
 
     private ListPresenter mPresenter;
 
@@ -49,6 +54,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
 
         Todo mTodo;
 
+        @BindView(R.id.list_item_todo)
+        LinearLayout mLineraLayout;
+
         @BindView(R.id.list_item_todo_title_text_view)
         TextView mTitleTextView;
 
@@ -64,6 +72,15 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
         @OnClick(R.id.list_item_todo_delete_icon)
         void deleteClicked(){
             mPresenter.deleteTodo(mTodo);
+        }
+
+        @OnClick(R.id.list_item_todo_done_check_box)
+        void doneClicked(){
+            if (mDoneCheckBox.isChecked()){
+                mPresenter.doneTodo(mTodo.getId(), this);
+            }else{
+                mPresenter.undoneTodo(mTodo.getId(), this);
+            }
         }
 
         public TodoHolder(@NonNull View itemView) {
@@ -91,6 +108,20 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
         @Override
         public void setTodo(Todo todo) {
             mTodo = todo;
+        }
+
+        @Override
+        public void markDone() {
+            mTitleTextView.setPaintFlags(mTitleTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            mDoneCheckBox.setChecked(true);
+            mLineraLayout.setAlpha(TRANSPARENT);
+        }
+
+        @Override
+        public void markUndone() {
+            mTitleTextView.setPaintFlags(mTitleTextView.getPaintFlags() &  (~Paint.STRIKE_THRU_TEXT_FLAG));
+            mDoneCheckBox.setChecked(false);
+            mLineraLayout.setAlpha(SOLID);
         }
 
         @Override

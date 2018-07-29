@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 public class TodoListFragment extends Fragment implements ListView{
 
     private static ListPresenter mTodoListPresenter;
+    private static ListPresenter mDoneTodoListPresenter;
 
     @BindView(R.id.todo_list_recycler_view)
     RecyclerView mRecyclerView;
@@ -37,7 +38,7 @@ public class TodoListFragment extends Fragment implements ListView{
         View v = inflater.inflate(R.layout.fragment_todo_list, container, false);
 
         if(mTodoListPresenter == null){
-            mTodoListPresenter = new TodoListPresenter(this, getContext());
+            mTodoListPresenter = new TodoListPresenter(this,getContext());
         }
 
         ButterKnife.bind(this, v);
