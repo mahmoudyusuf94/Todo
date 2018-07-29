@@ -1,10 +1,8 @@
 package com.example.blink22.todo;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
-import com.example.blink22.todo.data.TodoDb;
+import com.example.blink22.todo.data.TodoDataManager;
 import com.example.blink22.todo.data.model.Todo;
 
 import java.util.Date;
@@ -12,11 +10,11 @@ import java.util.Date;
 public class TodoPresenter implements DetailsPresenter{
 
     DetailsView mView;
-    TodoDb db;
+    TodoDataManager db;
 
-    public TodoPresenter (DetailsView view){
+    public TodoPresenter (DetailsView view, Context context){
         mView = view;
-        db = new TodoDb();
+        db = TodoDataManager.getInstance(context);
     }
 
     @Override

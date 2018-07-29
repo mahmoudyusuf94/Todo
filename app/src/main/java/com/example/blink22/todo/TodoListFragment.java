@@ -37,7 +37,7 @@ public class TodoListFragment extends Fragment implements ListView{
         View v = inflater.inflate(R.layout.fragment_todo_list, container, false);
 
         if(mTodoListPresenter == null){
-            mTodoListPresenter = new TodoListPresenter(this);
+            mTodoListPresenter = new TodoListPresenter(this, getContext());
         }
 
         ButterKnife.bind(this, v);

@@ -74,7 +74,7 @@ public class TodoFragment extends Fragment implements DetailsView {
         Bundle args = getArguments();
 
         ButterKnife.bind(this, v);
-        mPresenter = new TodoPresenter(this);
+        mPresenter = new TodoPresenter(this, getContext());
 
         if(args != null){
             mTodoId = getArguments().getString(ARG_TODO_ID);

@@ -4,69 +4,78 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-public class Todo {
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
-    private String mId;
+public class Todo extends RealmObject {
 
-    private String mTitle;
+    @Ignore
+    public static final String ID_FIELD_NAME = "id";
 
-    private String mDescription;
+    @PrimaryKey
+    private String id;
 
-    private Date mDate;
+    private String title;
 
-    private boolean mDone;
+    private String description;
+
+    private Date date;
+
+    private boolean done;
 
     public String getId() {
-        return mId;
+        return id;
     }
 
     public void setId(String id) {
-        mId = id;
+        this.id = id;
     }
 
     public String getTitle() {
-        return mTitle;
+        return title;
     }
 
     public void setTitle(String title) {
-        mTitle = title;
+        this.title = title;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public void setDescription(String description) {
-        mDescription = description;
+        this.description = description;
     }
 
     public Date getDate() {
-        return mDate;
+        return date;
     }
 
     public void setDate(Date date) {
-        mDate = date;
+        this.date = date;
     }
 
     public boolean isDone() {
-        return mDone;
+        return done;
     }
 
     public void setDone(boolean done) {
-        mDone = done;
+        this.done = done;
     }
 
     public Todo(String title, Date date, boolean done){
-        mId = UUID.randomUUID().toString();
-        mTitle = title;
-        mDate = date;
-        mDone = done;
+        id = UUID.randomUUID().toString();
+        this.title = title;
+        this.date = date;
+        this.done = done;
     }
 
     public Todo(){
-        mId = UUID.randomUUID().toString();
-        mDate = Calendar.getInstance().getTime();
+        id = UUID.randomUUID().toString();
+        date = Calendar.getInstance().getTime();
     }
+
 
 
 }

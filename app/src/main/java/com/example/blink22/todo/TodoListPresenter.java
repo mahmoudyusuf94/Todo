@@ -2,13 +2,10 @@ package com.example.blink22.todo;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
-import android.util.Log;
-import android.view.View;
 
+import com.example.blink22.todo.data.TodoDataManager;
 import com.example.blink22.todo.data.TodoDb;
-import com.example.blink22.todo.data.TodoDbIF;
 import com.example.blink22.todo.data.model.Todo;
 
 import java.util.Date;
@@ -17,13 +14,13 @@ import java.util.List;
 public class TodoListPresenter implements ListPresenter{
 
     ListView mView;
-    TodoDbIF mDb;
+    TodoDb mDb;
     List<Todo> mTodos;
 
-    public TodoListPresenter(ListView view){
+    public TodoListPresenter(ListView view, Context context){
         mView = view;
-        mDb = new TodoDb();
-        mTodos = mDb.getAllTodos(); //to be changed
+        mDb = TodoDataManager.getInstance(context);
+        mTodos = mDb.getAllTodos();
     }
 
     public void bindViewHolderWithPosition(TodoAdapter.TodoHolder todoHolder, int position) {
