@@ -41,6 +41,12 @@ public class TodoListPresenter implements ListPresenter{
         context.startActivity(intent);
     }
 
+    @Override
+    public void deleteTodo(Todo todo) {
+        mDb.deleteTodo(todo.getId());
+        notifyDataChanged();
+    }
+
     public void notifyDataChanged() {
         mTodos = mDb.getAllTodos();
         mView.updateAdapter();

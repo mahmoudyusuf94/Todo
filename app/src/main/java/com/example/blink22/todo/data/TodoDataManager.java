@@ -54,4 +54,18 @@ public class TodoDataManager implements TodoDb {
         realm.commitTransaction();
     }
 
+    @Override
+    public void deleteTodo(String id) {
+        realm.beginTransaction();
+        Todo result = realm.where(Todo.class).equalTo(Todo.ID_FIELD_NAME, id).findFirst();
+        if(result != null){
+            result.deleteFromRealm();
+        }
+        realm.commitTransaction();
+    }
+
+    private Todo getRealmTodo(String id){
+        return realm.copyFromRealm(realm.where(Todo.class).equalTo(Todo.ID_FIELD_NAME, id).findFirst());
+    }
+
 }

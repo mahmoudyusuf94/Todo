@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.blink22.todo.data.model.Todo;
@@ -16,6 +17,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
 
@@ -55,6 +57,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
 
         @BindView(R.id.list_item_todo_date_text_view)
         TextView mDateTextView;
+
+        @BindView(R.id.list_item_todo_delete_icon)
+        ImageView mDeleteImageView;
+
+        @OnClick(R.id.list_item_todo_delete_icon)
+        void deleteClicked(){
+            mPresenter.deleteTodo(mTodo);
+        }
 
         public TodoHolder(@NonNull View itemView) {
             super(itemView);
