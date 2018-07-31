@@ -1,4 +1,4 @@
-package com.example.blink22.todo;
+package com.example.blink22.todo.ui;
 
 public class SingleFragmentActivityPresenter {
 

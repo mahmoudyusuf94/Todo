@@ -1,8 +1,9 @@
-package com.example.blink22.todo;
+package com.example.blink22.todo.ui.TodoList;
 
 import android.content.Context;
 
 import com.example.blink22.todo.data.model.Todo;
+import com.example.blink22.todo.ui.TodoDetails.TodoAdapter;
 
 public interface ListPresenter {
     void notifyDataChanged();

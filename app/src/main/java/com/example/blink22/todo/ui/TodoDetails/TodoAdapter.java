@@ -1,10 +1,8 @@
-package com.example.blink22.todo;
+package com.example.blink22.todo.ui.TodoDetails;
 
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.blink22.todo.R;
 import com.example.blink22.todo.data.model.Todo;
-
-import java.util.Date;
+import com.example.blink22.todo.ui.TodoList.Holder;
+import com.example.blink22.todo.ui.TodoList.ListPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +49,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
         return mPresenter.getTodoCount();
     }
 
-    class TodoHolder extends RecyclerView.ViewHolder implements Holder, View.OnClickListener{
+    public class TodoHolder extends RecyclerView.ViewHolder implements Holder, View.OnClickListener{
 
         Todo mTodo;
 

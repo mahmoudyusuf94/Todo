@@ -1,4 +1,4 @@
-package com.example.blink22.todo;
+package com.example.blink22.todo.ui.TodoDetails;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.blink22.todo.R;
 import com.example.blink22.todo.data.model.Todo;
 
 import java.util.Date;

@@ -1,8 +1,8 @@
-package com.example.blink22.todo;
+package com.example.blink22.todo.ui.TodoList;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+
+import com.example.blink22.todo.ui.SingleFragmentActivity;
 
 public class TodoListActivity extends SingleFragmentActivity {
 

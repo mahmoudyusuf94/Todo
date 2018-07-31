@@ -1,9 +1,11 @@
-package com.example.blink22.todo;
+package com.example.blink22.todo.ui.TodoDetails;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
+import com.example.blink22.todo.ui.SingleFragmentActivity;
 
 public class TodoActivity extends SingleFragmentActivity {
 

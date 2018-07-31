@@ -1,4 +1,4 @@
-package com.example.blink22.todo;
+package com.example.blink22.todo.ui.TodoDetails;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -12,6 +12,8 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
+
+import com.example.blink22.todo.R;
 
 import java.util.Calendar;
 import java.util.Date;
