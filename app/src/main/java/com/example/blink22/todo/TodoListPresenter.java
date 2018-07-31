@@ -4,9 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.format.DateFormat;
 
+import com.example.blink22.todo.data.DataManager;
 import com.example.blink22.todo.data.TodoDataManager;
-import com.example.blink22.todo.data.TodoDb;
 import com.example.blink22.todo.data.model.Todo;
+import com.example.blink22.todo.data.model.TodoDbHelper;
 
 import java.util.Date;
 import java.util.List;
@@ -14,13 +15,13 @@ import java.util.List;
 public class TodoListPresenter implements ListPresenter{
 
     ListView mView;
-    TodoDb mDb;
+    DataManager mDataManager;
     List<Todo> mTodos;
 
     public TodoListPresenter(ListView view, Context context){
         mView = view;
-        mDb = TodoDataManager.getInstance(context);
-        mTodos = mDb.getAllTodos();
+        mDataManager = new TodoDataManager(new TodoDbHelper(context));
+        mTodos = mDataManager.getAllTodos();
     }
 
     public void bindViewHolderWithPosition(TodoAdapter.TodoHolder todoHolder, int position) {
@@ -48,28 +49,28 @@ public class TodoListPresenter implements ListPresenter{
 
     @Override
     public void deleteTodo(Todo todo) {
-        mDb.deleteTodo(todo.getId());
+        mDataManager.deleteTodo(todo.getId());
         notifyDataChanged();
     }
 
     @Override
     public void doneTodo(String todoId, TodoAdapter.TodoHolder todoHolder) {
-        Todo todo = mDb.getTodo(todoId);
+        Todo todo = mDataManager.getTodo(todoId);
         todo.setDone(true);
-        mDb.updateTodo(todo);
+        mDataManager.updateTodo(todo);
         todoHolder.markDone();
     }
 
     @Override
     public void undoneTodo(String todoId, TodoAdapter.TodoHolder todoHolder) {
-        Todo todo = mDb.getTodo(todoId);
+        Todo todo = mDataManager.getTodo(todoId);
         todo.setDone(false);
-        mDb.updateTodo(todo);
+        mDataManager.updateTodo(todo);
         todoHolder.markUndone();
     }
 
     public void notifyDataChanged() {
-        mTodos = mDb.getAllTodos();
+        mTodos = mDataManager.getAllTodos();
         mView.updateAdapter();
     }
 

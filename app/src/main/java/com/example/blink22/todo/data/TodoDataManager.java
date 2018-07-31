@@ -1,74 +1,48 @@
 package com.example.blink22.todo.data;
 
-import android.content.Context;
-
 import com.example.blink22.todo.data.model.Todo;
+import com.example.blink22.todo.data.model.DbHelper;
 
 import java.util.List;
 
 import io.realm.Realm;
 
-public class TodoDataManager implements TodoDb {
+public class TodoDataManager implements DataManager, DbHelper {
 
-    public static final boolean NOT_DONE = false;
-    public static final boolean DONE = true;
-    private static TodoDataManager dbSingletonInstance;
+    private DbHelper mDbHelper;
 
-    private static Realm realm;
-
-    public static TodoDataManager getInstance(Context context){
-        if(dbSingletonInstance == null){
-            dbSingletonInstance = new TodoDataManager(context);
-        }
-        return dbSingletonInstance;
-    }
-
-    private TodoDataManager(Context context){
-        Realm.init(context);
-        realm = Realm.getDefaultInstance();
-    }
-
-    private TodoDataManager(){
-
+    public TodoDataManager(DbHelper dbHelper){
+        mDbHelper = dbHelper;
     }
 
     @Override
     public List<Todo> getAllTodos() {
-        return realm.where(Todo.class).findAll();
+        return mDbHelper.getAllTodos();
     }
 
     @Override
     public Todo getTodo(String id) {
-        return realm.copyFromRealm(realm.where(Todo.class).equalTo(Todo.ID_FIELD_NAME, id).findFirst());
+        return mDbHelper.getTodo(id);
     }
 
     @Override
     public void updateTodo(Todo todo) {
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(todo);
-        realm.commitTransaction();
+        mDbHelper.updateTodo(todo);
     }
 
     @Override
     public void insertTodo(Todo todo) {
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(todo);
-        realm.commitTransaction();
+        mDbHelper.insertTodo(todo);
     }
 
     @Override
     public void deleteTodo(String id) {
-        realm.beginTransaction();
-        Todo result = realm.where(Todo.class).equalTo(Todo.ID_FIELD_NAME, id).findFirst();
-        if(result != null){
-            result.deleteFromRealm();
-        }
-        realm.commitTransaction();
+        mDbHelper.deleteTodo(id);
     }
 
     @Override
     public List<Todo> getAllDoneTodos() {
-        return realm.where(Todo.class).equalTo(Todo.DONE_FIELD_NAME, DONE).findAll();
+        return mDbHelper.getAllDoneTodos();
     }
 
 }

@@ -2,25 +2,27 @@ package com.example.blink22.todo;
 
 import android.content.Context;
 
+import com.example.blink22.todo.data.DataManager;
 import com.example.blink22.todo.data.TodoDataManager;
 import com.example.blink22.todo.data.model.Todo;
+import com.example.blink22.todo.data.model.TodoDbHelper;
 
 import java.util.Date;
 
 public class TodoPresenter implements DetailsPresenter{
 
     DetailsView mView;
-    TodoDataManager db;
+    DataManager mDataManager;
 
     public TodoPresenter (DetailsView view, Context context){
         mView = view;
-        db = TodoDataManager.getInstance(context);
+        mDataManager = new TodoDataManager(new TodoDbHelper(context));
     }
 
     @Override
     public Todo prepareTodoView(String todoId) {
         if(todoId!=null){
-            Todo todo = db.getTodo(todoId);
+            Todo todo = mDataManager.getTodo(todoId);
             if(todo != null){
                 mView.setTodoTitleEditText(todo.getTitle());
                 mView.setTodoDescEditText(todo.getDescription());
@@ -39,9 +41,9 @@ public class TodoPresenter implements DetailsPresenter{
     @Override
     public void doneTodo( Todo todo, boolean exists) {
         if(exists){
-            db.updateTodo(todo);
+            mDataManager.updateTodo(todo);
         }else{
-            db.insertTodo(todo);
+            mDataManager.insertTodo(todo);
         }
         mView.cancel();
     }

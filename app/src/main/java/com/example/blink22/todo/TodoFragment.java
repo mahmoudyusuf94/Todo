@@ -30,7 +30,6 @@ public class TodoFragment extends Fragment implements DetailsView {
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0 ;
 
-
     private String mTodoId;
     private DetailsPresenter mPresenter;
     private Todo mTodo;

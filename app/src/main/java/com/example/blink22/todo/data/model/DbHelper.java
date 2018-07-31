@@ -1,10 +1,10 @@
-package com.example.blink22.todo.data;
+package com.example.blink22.todo.data.model;
 
 import com.example.blink22.todo.data.model.Todo;
 
 import java.util.List;
 
-public interface TodoDb {
+public interface DbHelper {
 
     List<Todo> getAllTodos();
 
