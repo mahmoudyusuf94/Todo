@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Created by blink22 on 5/29/18.
  */
-public abstract class SingleFragmentActivity extends AppCompatActivity  {
+public abstract class SingleFragmentActivity extends AppCompatActivity implements MainView {
 
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
@@ -43,10 +43,10 @@ public abstract class SingleFragmentActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-        mPresenter = new SingleFragmentActivityPresenter(this);
+        mPresenter = new SingleFragmentActivityPresenter();
+        mPresenter.onAttach(this);
 
         ButterKnife.bind(this);
-
 
         setSupportActionBar(mToolbar);
         ActionBar actionbar = getSupportActionBar();

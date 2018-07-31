@@ -10,18 +10,19 @@ import com.example.blink22.todo.data.model.Todo;
 import com.example.blink22.todo.data.model.TodoDbHelper;
 import com.example.blink22.todo.ui.TodoDetails.TodoActivity;
 import com.example.blink22.todo.ui.TodoDetails.TodoAdapter;
+import com.example.blink22.todo.ui.base.BasePresenter;
+import com.example.blink22.todo.ui.base.MvpView;
 
 import java.util.Date;
 import java.util.List;
 
-public class TodoListPresenter implements ListPresenter{
+public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
+        implements ListPresenter<V>{
 
-    ListView mView;
     DataManager mDataManager;
     List<Todo> mTodos;
 
-    public TodoListPresenter(ListView view, Context context){
-        mView = view;
+    public TodoListPresenter(Context context){
         mDataManager = new TodoDataManager(new TodoDbHelper(context));
         mTodos = mDataManager.getAllTodos();
     }
@@ -73,10 +74,11 @@ public class TodoListPresenter implements ListPresenter{
 
     public void notifyDataChanged() {
         mTodos = mDataManager.getAllTodos();
-        mView.updateAdapter();
+        getMvpView().updateAdapter();
     }
 
     private CharSequence formatDate(Date date){
         return DateFormat.format("EEEE, MMMM dd, yyyy",date);
     }
+
 }

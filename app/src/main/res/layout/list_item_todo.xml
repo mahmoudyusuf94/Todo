@@ -4,7 +4,8 @@
     android:id="@+id/list_item_todo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,6 +16,7 @@
             android:id="@+id/list_item_todo_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18dp"
             android:layout_weight="1"/>
         <CheckBox
             android:id="@+id/list_item_todo_done_check_box"

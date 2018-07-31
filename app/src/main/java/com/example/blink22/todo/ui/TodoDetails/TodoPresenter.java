@@ -1,21 +1,23 @@
 package com.example.blink22.todo.ui.TodoDetails;
 
 import android.content.Context;
+import android.view.View;
 
 import com.example.blink22.todo.data.DataManager;
 import com.example.blink22.todo.data.TodoDataManager;
 import com.example.blink22.todo.data.model.Todo;
 import com.example.blink22.todo.data.model.TodoDbHelper;
+import com.example.blink22.todo.ui.base.BasePresenter;
+import com.example.blink22.todo.ui.base.MvpPresenter;
 
 import java.util.Date;
 
-public class TodoPresenter implements DetailsPresenter{
+public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
+        implements DetailsPresenter<V>{
 
-    DetailsView mView;
     DataManager mDataManager;
 
-    public TodoPresenter (DetailsView view, Context context){
-        mView = view;
+    public TodoPresenter (Context context){
         mDataManager = new TodoDataManager(new TodoDbHelper(context));
     }
 
@@ -24,9 +26,9 @@ public class TodoPresenter implements DetailsPresenter{
         if(todoId!=null){
             Todo todo = mDataManager.getTodo(todoId);
             if(todo != null){
-                mView.setTodoTitleEditText(todo.getTitle());
-                mView.setTodoDescEditText(todo.getDescription());
-                mView.setTodoDateButton(todo.getDate());
+                getMvpView().setTodoTitleEditText(todo.getTitle());
+                getMvpView().setTodoDescEditText(todo.getDescription());
+                getMvpView().setTodoDateButton(todo.getDate());
                 return todo;
             }
         }
@@ -35,7 +37,7 @@ public class TodoPresenter implements DetailsPresenter{
 
     @Override
     public void cancelTodo() {
-        mView.cancel();
+        getMvpView().cancel();
     }
 
     @Override
@@ -45,11 +47,12 @@ public class TodoPresenter implements DetailsPresenter{
         }else{
             mDataManager.insertTodo(todo);
         }
-        mView.cancel();
+        getMvpView().cancel();
     }
 
     @Override
     public void updateDateButton(Date date) {
-        mView.setTodoDateButton(date);
+        getMvpView().setTodoDateButton(date);
     }
+
 }

@@ -4,8 +4,9 @@ import android.content.Context;
 
 import com.example.blink22.todo.data.model.Todo;
 import com.example.blink22.todo.ui.TodoDetails.TodoAdapter;
+import com.example.blink22.todo.ui.base.MvpPresenter;
 
-public interface ListPresenter {
+public interface ListPresenter<V extends ListView> extends MvpPresenter<V> {
     void notifyDataChanged();
     void bindViewHolderWithPosition(TodoAdapter.TodoHolder todoHolder, int position);
     int getTodoCount();

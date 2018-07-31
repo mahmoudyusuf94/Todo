@@ -74,7 +74,8 @@ public class TodoFragment extends Fragment implements DetailsView {
         Bundle args = getArguments();
 
         ButterKnife.bind(this, v);
-        mPresenter = new TodoPresenter(this, getContext());
+        mPresenter = new TodoPresenter(getContext());
+        mPresenter.onAttach(this);
 
         if(args != null){
             mTodoId = getArguments().getString(ARG_TODO_ID);
@@ -174,5 +175,11 @@ public class TodoFragment extends Fragment implements DetailsView {
 
     private CharSequence formatDate(Date date){
         return DateFormat.format("EEEE, MMMM dd, yyyy",date);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDetach();
     }
 }

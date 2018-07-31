@@ -1,5 +1,7 @@
 package com.example.blink22.todo.ui.TodoList;
 
-public interface ListView {
+import com.example.blink22.todo.ui.base.MvpView;
+
+public interface ListView extends MvpView{
     void updateAdapter();
 }

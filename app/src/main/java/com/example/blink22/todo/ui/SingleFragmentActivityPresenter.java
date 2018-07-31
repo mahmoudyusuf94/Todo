@@ -1,19 +1,16 @@
 package com.example.blink22.todo.ui;
 
-public class SingleFragmentActivityPresenter {
+import com.example.blink22.todo.ui.base.BasePresenter;
 
-    SingleFragmentActivity mActivity;
-
-    public SingleFragmentActivityPresenter(SingleFragmentActivity activity){
-        mActivity = activity;
-    }
-
+public class SingleFragmentActivityPresenter<V extends MainView>  extends BasePresenter<V>
+        implements MainPresenter<V> {
 
     public void addTodoSelected() {
-        mActivity.showAddTodo();
+        getMvpView().showAddTodo();
     }
 
     public void listTodoSelected(){
-        mActivity.showTodoList();
+        getMvpView().showTodoList();
     }
+
 }
