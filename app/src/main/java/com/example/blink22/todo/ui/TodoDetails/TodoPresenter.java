@@ -1,6 +1,7 @@
 package com.example.blink22.todo.ui.TodoDetails;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.View;
 
 import com.example.blink22.todo.data.DataManager;
@@ -17,8 +18,8 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
 
     DataManager mDataManager;
 
-    public TodoPresenter (Context context){
-        mDataManager = new TodoDataManager(new TodoDbHelper(context));
+    public TodoPresenter (DataManager dataManager){
+        mDataManager = dataManager;
     }
 
     @Override

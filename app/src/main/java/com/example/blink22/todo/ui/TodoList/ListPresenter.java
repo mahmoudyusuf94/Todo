@@ -3,7 +3,6 @@ package com.example.blink22.todo.ui.TodoList;
 import android.content.Context;
 
 import com.example.blink22.todo.data.model.Todo;
-import com.example.blink22.todo.ui.TodoDetails.TodoAdapter;
 import com.example.blink22.todo.ui.base.MvpPresenter;
 
 public interface ListPresenter<V extends ListView> extends MvpPresenter<V> {

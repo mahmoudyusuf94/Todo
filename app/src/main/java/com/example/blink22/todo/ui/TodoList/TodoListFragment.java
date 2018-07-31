@@ -11,10 +11,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.blink22.todo.R;
+import com.example.blink22.todo.data.TodoDataManager;
+import com.example.blink22.todo.data.model.TodoDbHelper;
+import com.example.blink22.todo.di.component.ActivityComponent;
+import com.example.blink22.todo.di.component.ApplicationComponent;
+import com.example.blink22.todo.di.module.ContextModule;
 import com.example.blink22.todo.ui.TodoDetails.TodoActivity;
-import com.example.blink22.todo.ui.TodoDetails.TodoAdapter;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +31,11 @@ import butterknife.OnClick;
 
 public class TodoListFragment extends Fragment implements ListView{
 
-    private static ListPresenter mTodoListPresenter;
+    @Inject
+    ListPresenter<ListView> mTodoListPresenter;
+
+    @Inject
+    LinearLayoutManager mLinearLayoutManager;
 
     @BindView(R.id.todo_list_recycler_view)
     RecyclerView mRecyclerView;
@@ -44,14 +57,9 @@ public class TodoListFragment extends Fragment implements ListView{
 
         View v = inflater.inflate(R.layout.fragment_todo_list, container, false);
 
-        if(mTodoListPresenter == null){
-            mTodoListPresenter = new TodoListPresenter(getContext());
-        }
-        mTodoListPresenter.onAttach(this);
-
         ButterKnife.bind(this, v);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
         if(mAdapter == null){
             mAdapter = new TodoAdapter(mTodoListPresenter);
         }
@@ -64,6 +72,9 @@ public class TodoListFragment extends Fragment implements ListView{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+
+        ((TodoListActivity)getActivity()).getActivityComponent().inject(this);
+        mTodoListPresenter.onAttach(this);
     }
 
 

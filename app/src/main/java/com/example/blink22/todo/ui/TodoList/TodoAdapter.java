@@ -1,4 +1,4 @@
-package com.example.blink22.todo.ui.TodoDetails;
+package com.example.blink22.todo.ui.TodoList;
 
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.example.blink22.todo.R;
 import com.example.blink22.todo.data.model.Todo;
-import com.example.blink22.todo.ui.TodoList.Holder;
-import com.example.blink22.todo.ui.TodoList.ListPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,7 +52,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
         Todo mTodo;
 
         @BindView(R.id.list_item_todo)
-        LinearLayout mLineraLayout;
+        LinearLayout mLinearLayout;
 
         @BindView(R.id.list_item_todo_title_text_view)
         TextView mTitleTextView;
@@ -113,14 +111,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
         public void markDone() {
             mTitleTextView.setPaintFlags(mTitleTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
             mDoneCheckBox.setChecked(true);
-            mLineraLayout.setAlpha(TRANSPARENT);
+            mLinearLayout.setAlpha(TRANSPARENT);
         }
 
         @Override
         public void markUndone() {
             mTitleTextView.setPaintFlags(mTitleTextView.getPaintFlags() &  (~Paint.STRIKE_THRU_TEXT_FLAG));
             mDoneCheckBox.setChecked(false);
-            mLineraLayout.setAlpha(SOLID);
+            mLinearLayout.setAlpha(SOLID);
         }
 
         @Override

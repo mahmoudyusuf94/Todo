@@ -14,8 +14,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.blink22.todo.R;
+import com.example.blink22.todo.di.component.ActivityComponent;
+import com.example.blink22.todo.di.component.DaggerActivityComponent;
+import com.example.blink22.todo.di.component.DaggerApplicationComponent;
+import com.example.blink22.todo.di.module.ContextModule;
 import com.example.blink22.todo.ui.TodoDetails.TodoActivity;
 import com.example.blink22.todo.ui.TodoList.TodoListActivity;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +41,10 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
     Toolbar mToolbar;
 
     protected abstract Fragment createFragment();
-    private SingleFragmentActivityPresenter mPresenter;
+    private ActivityComponent mActivityComponent;
+
+    @Inject
+    MainPresenter<MainView> mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,12 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-        mPresenter = new SingleFragmentActivityPresenter();
+        mActivityComponent = DaggerActivityComponent.builder()
+                .applicationComponent(
+                        DaggerApplicationComponent.builder().contextModule(new ContextModule(this)
+                        ).build())
+                .build();
+        mActivityComponent.inject(this);
         mPresenter.onAttach(this);
 
         ButterKnife.bind(this);
@@ -57,7 +71,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                        menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         switch(menuItem.getItemId()){
                             case R.id.menu_item_add_todo:
@@ -102,5 +115,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
     public void showAddTodo(){
         Intent intent = new Intent(this, TodoActivity.class);
         startActivity(intent);
+    }
+
+    public ActivityComponent getActivityComponent() {
+        return mActivityComponent;
     }
 }

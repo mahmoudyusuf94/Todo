@@ -2,10 +2,16 @@ package com.example.blink22.todo.data.model;
 
 import android.content.Context;
 
+import com.example.blink22.todo.di.ApplicationContext;
+
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.realm.Realm;
 
+@Singleton
 public class TodoDbHelper implements DbHelper {
 
     public static final boolean NOT_DONE = false;
@@ -13,7 +19,8 @@ public class TodoDbHelper implements DbHelper {
 
     private Realm realm;
 
-    public TodoDbHelper(Context context){
+    @Inject
+    public TodoDbHelper(@ApplicationContext Context context){
         Realm.init(context);
         realm = Realm.getDefaultInstance();
     }

@@ -5,7 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.example.blink22.todo.di.component.ActivityComponent;
+import com.example.blink22.todo.di.module.ContextModule;
 import com.example.blink22.todo.ui.SingleFragmentActivity;
+import com.example.blink22.todo.ui.TodoList.ListPresenter;
+
+import javax.inject.Inject;
 
 public class TodoActivity extends SingleFragmentActivity {
 
@@ -26,9 +31,8 @@ public class TodoActivity extends SingleFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mTodoId = getIntent().getStringExtra(EXTRA_TODO_ID);
         super.onCreate(savedInstanceState);
+        mTodoId = getIntent().getStringExtra(EXTRA_TODO_ID);
     }
-
 
 }

@@ -9,12 +9,12 @@ import com.example.blink22.todo.data.TodoDataManager;
 import com.example.blink22.todo.data.model.Todo;
 import com.example.blink22.todo.data.model.TodoDbHelper;
 import com.example.blink22.todo.ui.TodoDetails.TodoActivity;
-import com.example.blink22.todo.ui.TodoDetails.TodoAdapter;
 import com.example.blink22.todo.ui.base.BasePresenter;
-import com.example.blink22.todo.ui.base.MvpView;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
         implements ListPresenter<V>{
@@ -22,8 +22,9 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
     DataManager mDataManager;
     List<Todo> mTodos;
 
-    public TodoListPresenter(Context context){
-        mDataManager = new TodoDataManager(new TodoDbHelper(context));
+    @Inject
+    public TodoListPresenter(DataManager dataManager){
+        mDataManager = dataManager;
         mTodos = mDataManager.getAllTodos();
     }
 

@@ -18,8 +18,12 @@ import android.widget.EditText;
 
 import com.example.blink22.todo.R;
 import com.example.blink22.todo.data.model.Todo;
+import com.example.blink22.todo.di.component.ActivityComponent;
+import com.example.blink22.todo.di.module.ContextModule;
 
 import java.util.Date;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,8 +35,10 @@ public class TodoFragment extends Fragment implements DetailsView {
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0 ;
 
+    @Inject
+    DetailsPresenter<DetailsView> mPresenter;
+
     private String mTodoId;
-    private DetailsPresenter mPresenter;
     private Todo mTodo;
     private boolean mTodoExists;
 
@@ -74,8 +80,6 @@ public class TodoFragment extends Fragment implements DetailsView {
         Bundle args = getArguments();
 
         ButterKnife.bind(this, v);
-        mPresenter = new TodoPresenter(getContext());
-        mPresenter.onAttach(this);
 
         if(args != null){
             mTodoId = getArguments().getString(ARG_TODO_ID);
@@ -117,7 +121,6 @@ public class TodoFragment extends Fragment implements DetailsView {
             }
         });
 
-
         return v;
     }
 
@@ -125,6 +128,9 @@ public class TodoFragment extends Fragment implements DetailsView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+        ((TodoActivity)getActivity()).getActivityComponent().inject(this);
+        mPresenter.onAttach(this);
+
     }
 
 
