@@ -188,4 +188,5 @@ public class TodoFragment extends Fragment implements DetailsView {
         super.onDestroy();
         mPresenter.onDetach();
     }
+
 }

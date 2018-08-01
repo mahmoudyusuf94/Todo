@@ -1,14 +1,12 @@
 package com.example.blink22.todo.data;
 
 import com.example.blink22.todo.data.model.Todo;
-import com.example.blink22.todo.data.model.DbHelper;
+import com.example.blink22.todo.data.db.DbHelper;
 
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import io.realm.Realm;
 
 @Singleton
 public class TodoDataManager implements DataManager, DbHelper {

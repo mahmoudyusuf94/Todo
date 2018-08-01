@@ -1,15 +1,8 @@
 package com.example.blink22.todo.ui.TodoDetails;
 
-import android.content.Context;
-import android.provider.ContactsContract;
-import android.view.View;
-
 import com.example.blink22.todo.data.DataManager;
-import com.example.blink22.todo.data.TodoDataManager;
 import com.example.blink22.todo.data.model.Todo;
-import com.example.blink22.todo.data.model.TodoDbHelper;
 import com.example.blink22.todo.ui.base.BasePresenter;
-import com.example.blink22.todo.ui.base.MvpPresenter;
 
 import java.util.Date;
 

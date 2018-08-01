@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.text.format.DateFormat;
 
 import com.example.blink22.todo.data.DataManager;
-import com.example.blink22.todo.data.TodoDataManager;
 import com.example.blink22.todo.data.model.Todo;
-import com.example.blink22.todo.data.model.TodoDbHelper;
 import com.example.blink22.todo.ui.TodoDetails.TodoActivity;
 import com.example.blink22.todo.ui.base.BasePresenter;
 

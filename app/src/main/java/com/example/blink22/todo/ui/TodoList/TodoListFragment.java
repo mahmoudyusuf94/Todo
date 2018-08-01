@@ -11,17 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.example.blink22.todo.R;
-import com.example.blink22.todo.data.TodoDataManager;
-import com.example.blink22.todo.data.model.TodoDbHelper;
-import com.example.blink22.todo.di.component.ActivityComponent;
-import com.example.blink22.todo.di.component.ApplicationComponent;
-import com.example.blink22.todo.di.module.ContextModule;
 import com.example.blink22.todo.ui.TodoDetails.TodoActivity;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
