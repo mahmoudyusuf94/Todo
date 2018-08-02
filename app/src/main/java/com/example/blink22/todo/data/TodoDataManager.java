@@ -1,5 +1,8 @@
 package com.example.blink22.todo.data;
 
+import android.util.Log;
+
+import com.example.blink22.todo.data.db.OnGetComplete;
 import com.example.blink22.todo.data.model.Todo;
 import com.example.blink22.todo.data.db.DbHelper;
 
@@ -19,13 +22,13 @@ public class TodoDataManager implements DataManager, DbHelper {
     }
 
     @Override
-    public List<Todo> getAllTodos() {
-        return mDbHelper.getAllTodos();
+    public void getAllTodos(OnGetComplete callback) {
+        mDbHelper.getAllTodos(callback);
     }
 
     @Override
-    public Todo getTodo(String id) {
-        return mDbHelper.getTodo(id);
+    public void getTodo(String id,OnGetComplete callback) {
+        mDbHelper.getTodo(id, callback);
     }
 
     @Override
@@ -35,6 +38,7 @@ public class TodoDataManager implements DataManager, DbHelper {
 
     @Override
     public void insertTodo(Todo todo) {
+        Log.i("fuck", "CALLINE INSERT TODO FROM THE MANAGER => TODO = "+ todo);
         mDbHelper.insertTodo(todo);
     }
 

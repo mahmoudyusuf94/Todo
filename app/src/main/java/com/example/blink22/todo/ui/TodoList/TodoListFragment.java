@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,9 +65,8 @@ public class TodoListFragment extends Fragment implements ListView{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-
-        ((TodoListActivity)getActivity()).getActivityComponent().inject(this);
         mTodoListPresenter.onAttach(this);
+        ((TodoListActivity)getActivity()).getActivityComponent().inject(this);
     }
 
 

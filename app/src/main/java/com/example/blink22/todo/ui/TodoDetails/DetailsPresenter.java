@@ -9,7 +9,7 @@ import java.util.Date;
 
 public interface DetailsPresenter<V extends DetailsView> extends MvpPresenter<V> {
 
-    Todo prepareTodoView(String todoId);
+    void prepareTodoView(String todoId);
     void cancelTodo();
     void doneTodo( Todo todo, boolean exists);
     void updateDateButton(Date date);

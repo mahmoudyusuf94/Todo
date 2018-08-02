@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class TodoFragment extends Fragment implements DetailsView {
 
     @OnClick(R.id.todo_done_button)
     public void onDoneClick(){
+        Log.d("fuck", "ACTING UPON THE CLICK LISTENER => TODO ="+mTodo);
         mPresenter.doneTodo(mTodo,mTodoExists);
     }
 
@@ -77,15 +79,8 @@ public class TodoFragment extends Fragment implements DetailsView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_todo, container, false);
-        Bundle args = getArguments();
 
         ButterKnife.bind(this, v);
-
-        if(args != null){
-            mTodoId = getArguments().getString(ARG_TODO_ID);
-        }
-        mTodo = mPresenter.prepareTodoView(mTodoId);
-        mTodoExists = (mTodo.getTitle() != null);
 
         mTitleEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -129,7 +124,15 @@ public class TodoFragment extends Fragment implements DetailsView {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
         ((TodoActivity)getActivity()).getActivityComponent().inject(this);
+
         mPresenter.onAttach(this);
+        Bundle args = getArguments();
+
+        if(args != null){
+            mTodoId = getArguments().getString(ARG_TODO_ID);
+        }
+        Log.d("fuck", "calling prepare todoView with todoId = "+ mTodoId);
+        mPresenter.prepareTodoView(mTodoId);
 
     }
 
@@ -187,6 +190,12 @@ public class TodoFragment extends Fragment implements DetailsView {
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDetach();
+    }
+
+    public void prepare(Todo todo) {
+        mTodo = todo;
+        Log.d("fuck", "I am here prepared with todo = "+ mTodo.toString());
+        mTodoExists = (mTodo.getTitle() != null);
     }
 
 }

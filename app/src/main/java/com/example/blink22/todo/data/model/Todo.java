@@ -8,14 +8,13 @@ import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
-public class Todo extends RealmObject {
+public class Todo  {  //extends RealmObject
 
-    @Ignore
-    public static final String ID_FIELD_NAME = "id";
-    @Ignore
-    public static final String DONE_FIELD_NAME = "done";
-
-    @PrimaryKey
+//    @Ignore
+//    public static final String ID_FIELD_NAME = "id";
+//    public static final String DONE_FIELD_NAME = "done";
+//
+//    @PrimaryKey
     private String id;
 
     private String title;
@@ -77,6 +76,7 @@ public class Todo extends RealmObject {
         id = UUID.randomUUID().toString();
         date = Calendar.getInstance().getTime();
     }
+
 
 
 

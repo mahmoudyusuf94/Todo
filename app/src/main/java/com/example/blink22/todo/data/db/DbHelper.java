@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface DbHelper {
 
-    List<Todo> getAllTodos();
+    void getAllTodos(OnGetComplete callback);
 
-    Todo getTodo(String id);
+    void getTodo(String id, OnGetComplete callback);
 
     void updateTodo(Todo todo);
 
