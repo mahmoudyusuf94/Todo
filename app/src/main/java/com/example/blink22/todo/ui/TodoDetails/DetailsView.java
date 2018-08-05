@@ -11,4 +11,6 @@ public interface DetailsView extends MvpView {
     void setTodoDateButton(Date date);
     void cancel();
     void prepare(Todo todo);
+    void showWait();
+    void HideWait();
 }

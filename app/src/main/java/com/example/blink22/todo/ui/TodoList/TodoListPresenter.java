@@ -6,7 +6,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.example.blink22.todo.data.DataManager;
-import com.example.blink22.todo.data.db.OnGetComplete;
+import com.example.blink22.todo.data.db.OnTaskComplete;
 import com.example.blink22.todo.data.model.Todo;
 import com.example.blink22.todo.ui.TodoDetails.TodoActivity;
 import com.example.blink22.todo.ui.base.BasePresenter;
@@ -21,17 +21,23 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
         implements ListPresenter<V>{
 
     DataManager mDataManager;
-    List<Todo> mTodos;
+    List<Todo> mTodos = new ArrayList<>();
 
     @Inject
     public TodoListPresenter(DataManager dataManager){
         mDataManager = dataManager;
 
-        mDataManager.getAllTodos(new OnGetComplete() {
+        mDataManager.getAllTodos(new OnTaskComplete() {
             @Override
             public void onSuccess(List<Todo> todoList) {
-                Log.d("fuck", "SUCCESSSSSS TO GET ALL TODOS");
+                if(todoList != null){
+                    Log.d("fuck", "SUCCESSSSSS TO GET ALL TODOS"+ "------ todos size = "+ todoList.size());
+                }
+                else{
+                    Log.d("fuck", "SUCCESSSSSS TO GET ALL TODOS"+ "------  but null mother fucker");
+                }
                 mTodos = todoList;
+                notifyDataChanged();
             }
 
             @Override
@@ -39,7 +45,6 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
                 mTodos = new ArrayList<>();
             }
         });
-        notifyDataChanged();
     }
 
     public void bindViewHolderWithPosition(TodoAdapter.TodoHolder todoHolder, int position) {
@@ -67,21 +72,44 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
 
     @Override
     public void deleteTodo(Todo todo) {
-        mDataManager.deleteTodo(todo.getId());
-        notifyDataChanged();
+        getMvpView().showWait();
+        mDataManager.deleteTodo(todo.getId(), new OnTaskComplete() {
+            @Override
+            public void onSuccess(List<Todo> todoList) {
+                getMvpView().hideWait();
+                notifyDataChanged();
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        });
     }
 
     @Override
     public void doneTodo(String todoId, final TodoAdapter.TodoHolder todoHolder) {
 
-        mDataManager.getTodo(todoId, new OnGetComplete() {
+        getMvpView().showWait();
+        mDataManager.getTodo(todoId, new OnTaskComplete() {
 
             @Override
             public void onSuccess(List<Todo> todoList) {
                 Todo todo = todoList.get(0);
                 todo.setDone(true);
-                mDataManager.updateTodo(todo);
-                todoHolder.markDone();
+                mDataManager.updateTodo(todo, new OnTaskComplete() {
+                    @Override
+                    public void onSuccess(List<Todo> todoList) {
+                        getMvpView().hideWait();
+                        todoHolder.markDone();
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
+
             }
 
             @Override
@@ -94,14 +122,25 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
 
     @Override
     public void undoneTodo(String todoId, final TodoAdapter.TodoHolder todoHolder) {
-
-        mDataManager.getTodo(todoId, new OnGetComplete() {
+        getMvpView().showWait();
+        mDataManager.getTodo(todoId, new OnTaskComplete() {
             @Override
             public void onSuccess(List<Todo> todoList) {
                 Todo todo = todoList.get(0);
                 todo.setDone(false);
-                mDataManager.updateTodo(todo);
-                todoHolder.markUndone();
+                mDataManager.updateTodo(todo, new OnTaskComplete() {
+                    @Override
+                    public void onSuccess(List<Todo> todoList) {
+                        getMvpView().hideWait();
+                        todoHolder.markUndone();
+
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
 
             }
 
@@ -114,10 +153,13 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
     }
 
     public void notifyDataChanged() {
-        mDataManager.getAllTodos(new OnGetComplete() {
+        getMvpView().showWait();
+        mDataManager.getAllTodos(new OnTaskComplete() {
             @Override
             public void onSuccess(List<Todo> todoList) {
                 mTodos = todoList;
+                getMvpView().updateAdapter();
+                getMvpView().hideWait();
             }
 
             @Override
@@ -125,7 +167,7 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
 
             }
         });
-        getMvpView().updateAdapter();
+
     }
 
     private CharSequence formatDate(Date date){

@@ -1,66 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/todo_title_label"
-        style="?android:listSeparatorTextViewStyle"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/todo_title_edit_text"
-        android:hint="@string/todo_title_edit_text_hint"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/todo_desc_label"
-        style="?android:listSeparatorTextViewStyle"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/todo_desc_edit_text"
-        android:hint="@string/todo_desc_edit_text_hint"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/todo_date_button_text"
-        android:id="@+id/todo_date_button"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"/>
+    android:layout_height="match_parent">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/todo_title_label"
+            style="?android:listSeparatorTextViewStyle"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/todo_title_edit_text"
+            android:hint="@string/todo_title_edit_text_hint"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/todo_desc_label"
+            style="?android:listSeparatorTextViewStyle"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/todo_desc_edit_text"
+            android:hint="@string/todo_desc_edit_text_hint"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/todo_cancel_button_text"
-            android:id="@+id/todo_cancel_button"
-            android:layout_marginRight="6dp"
-            android:layout_marginLeft="4dp"
-            android:layout_weight="1"/>
+            android:text="@string/todo_date_button_text"
+            android:id="@+id/todo_date_button"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"/>
 
-
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/todo_done_button_text"
-            android:id="@+id/todo_done_button"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"/>
+            android:orientation="horizontal">
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/todo_cancel_button_text"
+                android:id="@+id/todo_cancel_button"
+                android:layout_marginRight="6dp"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1"/>
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/todo_done_button_text"
+                android:id="@+id/todo_done_button"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+    <ProgressBar
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:id="@+id/todo_fragment_progress_bar"
+        android:visibility="gone"/>
+
+</FrameLayout>

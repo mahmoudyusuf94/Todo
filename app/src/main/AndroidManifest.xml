@@ -19,7 +19,8 @@
         </activity>
 
         <activity android:name=".ui.TodoDetails.TodoActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            >
         </activity>
     </application>
 

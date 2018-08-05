@@ -14,9 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -34,23 +32,26 @@ public class FirestoreTodoDbHelper implements DbHelper {
     }
 
     @Override
-    public void getAllTodos(final OnGetComplete callback) {
+    public void getAllTodos(final OnTaskComplete callback) {
         db.collection(TODO_COLLECTION_NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                Log.i("fuck", "from the insert method, Task completed !");
                 List<Todo> result = new ArrayList<>();
                 if(task.isSuccessful()){
                     for(DocumentSnapshot document : task.getResult()){
                         result.add(document.toObject(Todo.class));
                     }
                 }
+                Log.i("fuck", "From insert, result is => " +result.size());
                 callback.onSuccess(result);
             }
         });
+        Log.i("fuck", "isn't Complete :D");
     }
 
     @Override
-    public void getTodo(String id, final OnGetComplete callback) {
+    public void getTodo(String id, final OnTaskComplete callback) {
 
         DocumentReference docRef = db.collection(TODO_COLLECTION_NAME).document(id);
 
@@ -72,25 +73,30 @@ public class FirestoreTodoDbHelper implements DbHelper {
     }
 
     @Override
-    public void updateTodo(Todo todo) {
-        db.collection(TODO_COLLECTION_NAME).document(todo.getId()).set(todo);
+    public void updateTodo(Todo todo, final OnTaskComplete callback) {
+        db.collection(TODO_COLLECTION_NAME).document(todo.getId()).set(todo)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        callback.onSuccess(null);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        callback.onFail();
+                    }
+                });
     }
 
     @Override
-    public void insertTodo(Todo todo) {
-        Log.i("fuck", "INSERTING THE FUCKING TODO ====> TODO ="+ todo);
-        Map<String, Object> to = new HashMap<>();
-        to.put("id", todo.getId());
-        to.put("date", todo.getDate());
-        to.put("description", todo.getDescription());
-        to.put("title", todo.getTitle());
-        Log.i("fuck", ""+ db);
-        db.collection("test").document("testDoc").set(to);
-        db.collection(TODO_COLLECTION_NAME).document(todo.getId()).set(to)
+    public void insertTodo(Todo todo , final OnTaskComplete callback) {
+        db.collection(TODO_COLLECTION_NAME).document(todo.getId()).set(todo)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.i("fuck", "Db insertion succedded");
+                        callback.onSuccess(null);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -102,8 +108,20 @@ public class FirestoreTodoDbHelper implements DbHelper {
     }
 
     @Override
-    public void deleteTodo(String todoId) {
-        db.collection(TODO_COLLECTION_NAME).document(todoId).delete();
+    public void deleteTodo(String todoId, final OnTaskComplete callback) {
+        db.collection(TODO_COLLECTION_NAME).document(todoId).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        callback.onSuccess(null);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        callback.onFail();
+                    }
+                });
     }
 
     @Override

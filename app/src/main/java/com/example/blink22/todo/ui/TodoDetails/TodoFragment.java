@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.example.blink22.todo.R;
 import com.example.blink22.todo.data.model.Todo;
@@ -40,7 +41,7 @@ public class TodoFragment extends Fragment implements DetailsView {
     DetailsPresenter<DetailsView> mPresenter;
 
     private String mTodoId;
-    private Todo mTodo;
+    private Todo mTodo = new Todo();
     private boolean mTodoExists;
 
     @BindView(R.id.todo_title_edit_text)
@@ -54,6 +55,9 @@ public class TodoFragment extends Fragment implements DetailsView {
 
     @BindView(R.id.todo_cancel_button)
     Button mCancelButton;
+
+    @BindView(R.id.todo_fragment_progress_bar)
+    ProgressBar mProgressBar;
 
     @OnClick(R.id.todo_cancel_button)
     public void onCancelClick(){
@@ -196,6 +200,16 @@ public class TodoFragment extends Fragment implements DetailsView {
         mTodo = todo;
         Log.d("fuck", "I am here prepared with todo = "+ mTodo.toString());
         mTodoExists = (mTodo.getTitle() != null);
+    }
+
+    @Override
+    public void showWait() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void HideWait() {
+        mProgressBar.setVisibility(View.GONE);
     }
 
 }

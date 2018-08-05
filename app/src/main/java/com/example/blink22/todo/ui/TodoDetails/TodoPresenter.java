@@ -3,7 +3,7 @@ package com.example.blink22.todo.ui.TodoDetails;
 import android.util.Log;
 
 import com.example.blink22.todo.data.DataManager;
-import com.example.blink22.todo.data.db.OnGetComplete;
+import com.example.blink22.todo.data.db.OnTaskComplete;
 import com.example.blink22.todo.data.model.Todo;
 import com.example.blink22.todo.ui.base.BasePresenter;
 
@@ -27,7 +27,7 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
         Log.i("fuck", "Called prepare with todoid = "+ todoId );
         Log.i("fuck", "Testing dataManager =>>>>>" + mDataManager);
         if(todoId!=null){
-            mDataManager.getTodo(todoId, new OnGetComplete() {
+            mDataManager.getTodo(todoId, new OnTaskComplete() {
                 @Override
                 public void onSuccess(List<Todo> todoList) {
                     Todo todo = todoList.get(0);
@@ -64,13 +64,36 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
 
     @Override
     public void doneTodo(Todo todo, boolean exists) {
+        getMvpView().showWait();
         if(exists){
-            mDataManager.updateTodo(todo);
+            mDataManager.updateTodo(todo, new OnTaskComplete() {
+                @Override
+                public void onSuccess(List<Todo> todoList) {
+                    getMvpView().HideWait();
+                    getMvpView().cancel();
+                }
+
+                @Override
+                public void onFail() {
+
+                }
+            });
         }else{
             Log.i("fuck", "CALLING INSERT TODO FROM PRESENTER => TODO = " +todo);
-            mDataManager.insertTodo(todo);
+            mDataManager.insertTodo(todo, new OnTaskComplete() {
+                @Override
+                public void onSuccess(List<Todo> todoList) {
+                    getMvpView().HideWait();
+                    getMvpView().cancel();
+                }
+
+                @Override
+                public void onFail() {
+
+                }
+            });
         }
-        getMvpView().cancel();
+
     }
 
     @Override

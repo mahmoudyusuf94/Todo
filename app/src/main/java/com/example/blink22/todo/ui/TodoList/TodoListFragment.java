@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.blink22.todo.R;
 import com.example.blink22.todo.ui.TodoDetails.TodoActivity;
@@ -36,6 +37,9 @@ public class TodoListFragment extends Fragment implements ListView{
     @BindView(R.id.todo_list_fab)
     FloatingActionButton mFab;
 
+    @BindView(R.id.fragment_todo_list_progress_bar)
+    ProgressBar mProgressBar;
+
     @OnClick(R.id.todo_list_fab)
     void fabClicked(){
         Intent intent = new Intent(getContext(), TodoActivity.class);
@@ -57,7 +61,7 @@ public class TodoListFragment extends Fragment implements ListView{
             mAdapter = new TodoAdapter(mTodoListPresenter);
         }
         mRecyclerView.setAdapter(mAdapter);
-
+        mTodoListPresenter.notifyDataChanged();
         return v;
     }
 
@@ -65,8 +69,8 @@ public class TodoListFragment extends Fragment implements ListView{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-        mTodoListPresenter.onAttach(this);
         ((TodoListActivity)getActivity()).getActivityComponent().inject(this);
+        mTodoListPresenter.onAttach(this);
     }
 
 
@@ -76,10 +80,22 @@ public class TodoListFragment extends Fragment implements ListView{
     }
 
     @Override
+    public void showWait() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideWait() {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onResume() {
         if(mAdapter != null){
             mTodoListPresenter.notifyDataChanged();
         }
+        Log.v("fuck", "RESUME **********");
+        mTodoListPresenter.notifyDataChanged();
         super.onResume();
     }
 

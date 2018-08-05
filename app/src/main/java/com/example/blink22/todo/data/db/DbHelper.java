@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface DbHelper {
 
-    void getAllTodos(OnGetComplete callback);
+    void getAllTodos(OnTaskComplete callback);
 
-    void getTodo(String id, OnGetComplete callback);
+    void getTodo(String id, OnTaskComplete callback);
 
-    void updateTodo(Todo todo);
+    void updateTodo(Todo todo, OnTaskComplete callback);
 
-    void insertTodo (Todo todo);
+    void insertTodo (Todo todo, OnTaskComplete callback);
 
-    void deleteTodo(String todoId);
+    void deleteTodo(String todoId, OnTaskComplete callback);
 
     List<Todo> getAllDoneTodos();
 }
