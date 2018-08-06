@@ -24,8 +24,6 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
 
     @Override
     public void prepareTodoView(String todoId) {
-        Log.i("fuck", "Called prepare with todoid = "+ todoId );
-        Log.i("fuck", "Testing dataManager =>>>>>" + mDataManager);
         if(todoId!=null){
             getMvpView().showWait();
             mDataManager.getTodo(todoId, new OnTaskComplete() {
@@ -33,28 +31,24 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
                 public void onSuccess(List<Todo> todoList) {
                     Todo todo = todoList.get(0);
                     if(todo != null){
-                        Log.i("fuck", "Get Succedded, todo != null " + todo.toString());
                         getMvpView().setTodoTitleEditText(todo.getTitle());
                         getMvpView().setTodoDescEditText(todo.getDescription());
                         getMvpView().setTodoDateButton(todo.getDate());
                         getMvpView().prepare(todo);
                     }else{
-                        Log.i("fuck", "Get Succedded, but todo=null");
                         getMvpView().prepare(new Todo());
                     }
-                    getMvpView().HideWait();
+                    getMvpView().hideWait();
                 }
 
                 @Override
                 public void onFail() {
-                    Log.i("fuck", "Get FAILED!!!!!!");
-
-                    getMvpView().prepare(new Todo());
+                    getMvpView().hideWait();
+                    getMvpView().showConnectionErrorToast();
+                    getMvpView().cancel();
                 }
             });
         }else{
-            Todo todo = new Todo();
-            Log.i("fuck", "Entered the else =====> Sending new todo = "+ todo);
             getMvpView().prepare(new Todo());
         }
     }
@@ -65,41 +59,16 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
     }
 
     @Override
-    public void doneTodo(Todo todo, boolean exists) {
-//        getMvpView().showWait();
+    public void saveTodo(Todo todo, boolean exists) {
         if(exists){
-            mDataManager.updateTodo(todo, new OnTaskComplete() {
-                @Override
-                public void onSuccess(List<Todo> todoList) {
-//                    getMvpView().HideWait();
-//                    getMvpView().cancel();
-                }
-
-                @Override
-                public void onFail() {
-
-                }
-            });
+            mDataManager.updateTodo(todo);
             getMvpView().cancel();
 
         }else{
-            Log.i("fuck", "CALLING INSERT TODO FROM PRESENTER => TODO = " +todo);
-            mDataManager.insertTodo(todo, new OnTaskComplete() {
-                @Override
-                public void onSuccess(List<Todo> todoList) {
-//                    getMvpView().HideWait();
-//                    getMvpView().cancel();
-                }
-
-                @Override
-                public void onFail() {
-
-                }
-            });
+            mDataManager.insertTodo(todo);
             getMvpView().cancel();
 
         }
-
     }
 
     @Override

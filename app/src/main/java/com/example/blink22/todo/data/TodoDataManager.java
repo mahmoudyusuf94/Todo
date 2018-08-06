@@ -32,19 +32,18 @@ public class TodoDataManager implements DataManager, DbHelper {
     }
 
     @Override
-    public void updateTodo(Todo todo, OnTaskComplete callback) {
-        mDbHelper.updateTodo(todo, callback);
+    public void updateTodo(Todo todo) {
+        mDbHelper.updateTodo(todo);
     }
 
     @Override
-    public void insertTodo(Todo todo, OnTaskComplete callback) {
-        Log.i("fuck", "CALLINE INSERT TODO FROM THE MANAGER => TODO = "+ todo);
-        mDbHelper.insertTodo(todo, callback);
+    public void insertTodo(Todo todo) {
+        mDbHelper.insertTodo(todo);
     }
 
     @Override
-    public void deleteTodo(String id ,OnTaskComplete callback) {
-        mDbHelper.deleteTodo(id, callback);
+    public void deleteTodo(String id) {
+        mDbHelper.deleteTodo(id);
     }
 
     @Override

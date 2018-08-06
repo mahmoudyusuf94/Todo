@@ -36,18 +36,15 @@ public class FirestoreTodoDbHelper implements DbHelper {
         db.collection(TODO_COLLECTION_NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                Log.i("fuck", "from the insert method, Task completed !");
                 List<Todo> result = new ArrayList<>();
                 if(task.isSuccessful()){
                     for(DocumentSnapshot document : task.getResult()){
                         result.add(document.toObject(Todo.class));
                     }
                 }
-                Log.i("fuck", "From get all , result is => " +result.size());
                 callback.onSuccess(result);
             }
         });
-        Log.i("fuck", "isn't Complete :D");
     }
 
     @Override
@@ -73,55 +70,18 @@ public class FirestoreTodoDbHelper implements DbHelper {
     }
 
     @Override
-    public void updateTodo(Todo todo, final OnTaskComplete callback) {
-        db.collection(TODO_COLLECTION_NAME).document(todo.getId()).set(todo)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        callback.onSuccess(null);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        callback.onFail();
-                    }
-                });
+    public void updateTodo(Todo todo) {
+        db.collection(TODO_COLLECTION_NAME).document(todo.getId()).set(todo);
     }
 
     @Override
-    public void insertTodo(Todo todo , final OnTaskComplete callback) {
-        db.collection(TODO_COLLECTION_NAME).document(todo.getId()).set(todo)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i("fuck", "Db insertion succedded");
-                        callback.onSuccess(null);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.i("fuck", ""+e);
-                    }
-                });
+    public void insertTodo(Todo todo) {
+        db.collection(TODO_COLLECTION_NAME).document(todo.getId()).set(todo);
     }
 
     @Override
-    public void deleteTodo(String todoId, final OnTaskComplete callback) {
-        db.collection(TODO_COLLECTION_NAME).document(todoId).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        callback.onSuccess(null);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        callback.onFail();
-                    }
-                });
+    public void deleteTodo(String todoId) {
+        db.collection(TODO_COLLECTION_NAME).document(todoId).delete();
     }
 
     @Override

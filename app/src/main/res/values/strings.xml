@@ -11,4 +11,5 @@
     <string name="todo_cancel_button_text">Cancel</string>
     <string name="todo_done_button_text">Done</string>
     <string name="date_picker_title">Select Date:</string>
+    <string name="loading_error_text">Network Error! Please Try Again Later.</string>
 </resources>

@@ -10,11 +10,11 @@ public interface DbHelper {
 
     void getTodo(String id, OnTaskComplete callback);
 
-    void updateTodo(Todo todo, OnTaskComplete callback);
+    void updateTodo(Todo todo);
 
-    void insertTodo (Todo todo, OnTaskComplete callback);
+    void insertTodo (Todo todo);
 
-    void deleteTodo(String todoId, OnTaskComplete callback);
+    void deleteTodo(String todoId);
 
     List<Todo> getAllDoneTodos();
 }

@@ -8,11 +8,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.blink22.todo.R;
 import com.example.blink22.todo.ui.TodoDetails.TodoActivity;
@@ -61,6 +61,7 @@ public class TodoListFragment extends Fragment implements ListView{
             mAdapter = new TodoAdapter(mTodoListPresenter);
         }
         mRecyclerView.setAdapter(mAdapter);
+
         mTodoListPresenter.notifyDataChanged();
         return v;
     }
@@ -91,17 +92,20 @@ public class TodoListFragment extends Fragment implements ListView{
 
     @Override
     public void onResume() {
+        super.onResume();
         if(mAdapter != null){
             mTodoListPresenter.notifyDataChanged();
         }
-        Log.v("fuck", "RESUME **********");
-        mTodoListPresenter.notifyDataChanged();
-        super.onResume();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mTodoListPresenter.onDetach();
+    }
+
+    @Override
+    public void showConnectionErrorToast() {
+        Toast.makeText(this.getContext(), R.string.loading_error_text, Toast.LENGTH_SHORT).show();
     }
 }

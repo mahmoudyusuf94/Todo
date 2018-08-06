@@ -2,9 +2,6 @@ package com.example.blink22.todo.ui.TodoList;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.format.DateFormat;
-import android.util.Log;
-
 import com.example.blink22.todo.data.DataManager;
 import com.example.blink22.todo.data.db.OnTaskComplete;
 import com.example.blink22.todo.data.model.Todo;
@@ -12,10 +9,11 @@ import com.example.blink22.todo.ui.TodoDetails.TodoActivity;
 import com.example.blink22.todo.ui.base.BasePresenter;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.example.blink22.todo.Util.CommonUtils.formatDate;
 
 public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
         implements ListPresenter<V>{
@@ -30,21 +28,71 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
         mDataManager.getAllTodos(new OnTaskComplete() {
             @Override
             public void onSuccess(List<Todo> todoList) {
-                if(todoList != null){
-                    Log.d("fuck", "SUCCESSSSSS TO GET ALL TODOS"+ "------ todos size = "+ todoList.size());
-                }
-                else{
-                    Log.d("fuck", "SUCCESSSSSS TO GET ALL TODOS"+ "------  but null mother fucker");
-                }
                 mTodos = todoList;
                 notifyDataChanged();
             }
 
             @Override
             public void onFail() {
-                mTodos = new ArrayList<>();
+                getMvpView().showConnectionErrorToast();
             }
         });
+    }
+
+    @Override
+    public void deleteTodo(Todo todo) {
+        mDataManager.deleteTodo(todo.getId());
+        notifyDataChanged();
+    }
+
+    @Override
+    public void doneTodo(String todoId, final TodoAdapter.TodoHolder todoHolder) {
+
+        mDataManager.getTodo(todoId, new OnTaskComplete() {
+            @Override
+            public void onSuccess(List<Todo> todoList) {
+                if(!todoList.isEmpty()){
+                    Todo todo = todoList.get(0);
+                    todo.setDone(true);
+                    mDataManager.updateTodo(todo);
+                }else{
+                    notifyDataChanged();
+                }
+            }
+
+            @Override
+            public void onFail() {
+                todoHolder.markUndone();
+                getMvpView().showConnectionErrorToast();
+            }
+
+        });
+        todoHolder.markDone();
+
+    }
+
+    @Override
+    public void undoneTodo(String todoId, final TodoAdapter.TodoHolder todoHolder) {
+        mDataManager.getTodo(todoId, new OnTaskComplete() {
+            @Override
+            public void onSuccess(List<Todo> todoList) {
+                if(!todoList.isEmpty()){
+                    Todo todo = todoList.get(0);
+                    todo.setDone(false);
+                    mDataManager.updateTodo(todo);
+                }else{
+                    notifyDataChanged();
+                }
+            }
+
+            @Override
+            public void onFail() {
+                todoHolder.markDone();
+                getMvpView().showConnectionErrorToast();
+            }
+        });
+        todoHolder.markUndone();
+
     }
 
     public void bindViewHolderWithPosition(TodoAdapter.TodoHolder todoHolder, int position) {
@@ -70,94 +118,6 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
         context.startActivity(intent);
     }
 
-    @Override
-    public void deleteTodo(Todo todo) {
-//        getMvpView().showWait();
-        mDataManager.deleteTodo(todo.getId(), new OnTaskComplete() {
-            @Override
-            public void onSuccess(List<Todo> todoList) {
-//                getMvpView().hideWait();
-//                notifyDataChanged();
-            }
-
-            @Override
-            public void onFail() {
-
-            }
-        });
-        notifyDataChanged();
-    }
-
-    @Override
-    public void doneTodo(String todoId, final TodoAdapter.TodoHolder todoHolder) {
-
-//        getMvpView().showWait();
-        mDataManager.getTodo(todoId, new OnTaskComplete() {
-
-            @Override
-            public void onSuccess(List<Todo> todoList) {
-                Todo todo = todoList.get(0);
-                todo.setDone(true);
-                mDataManager.updateTodo(todo, new OnTaskComplete() {
-                    @Override
-                    public void onSuccess(List<Todo> todoList) {
-//                        getMvpView().hideWait();
-//                        todoHolder.markDone();
-                    }
-
-                    @Override
-                    public void onFail() {
-
-                    }
-                });
-
-
-            }
-
-            @Override
-            public void onFail() {
-
-            }
-
-        });
-        todoHolder.markDone();
-
-    }
-
-    @Override
-    public void undoneTodo(String todoId, final TodoAdapter.TodoHolder todoHolder) {
-//        getMvpView().showWait();
-        mDataManager.getTodo(todoId, new OnTaskComplete() {
-            @Override
-            public void onSuccess(List<Todo> todoList) {
-                Todo todo = todoList.get(0);
-                todo.setDone(false);
-                mDataManager.updateTodo(todo, new OnTaskComplete() {
-                    @Override
-                    public void onSuccess(List<Todo> todoList) {
-//                        getMvpView().hideWait();
-//                        todoHolder.markUndone();
-
-                    }
-
-                    @Override
-                    public void onFail() {
-
-                    }
-                });
-
-
-            }
-
-            @Override
-            public void onFail() {
-
-            }
-        });
-        todoHolder.markUndone();
-
-    }
-
     public void notifyDataChanged() {
         getMvpView().showWait();
         mDataManager.getAllTodos(new OnTaskComplete() {
@@ -170,14 +130,9 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
 
             @Override
             public void onFail() {
-
+                getMvpView().showConnectionErrorToast();
             }
         });
 
     }
-
-    private CharSequence formatDate(Date date){
-        return DateFormat.format("EEEE, MMMM dd, yyyy",date);
-    }
-
 }

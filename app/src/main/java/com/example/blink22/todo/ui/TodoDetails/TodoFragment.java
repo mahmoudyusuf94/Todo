@@ -8,20 +8,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
-import android.text.TextWatcher;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.blink22.todo.R;
 import com.example.blink22.todo.data.model.Todo;
-import com.example.blink22.todo.di.component.ActivityComponent;
-import com.example.blink22.todo.di.module.ContextModule;
 
 import java.util.Date;
 
@@ -32,12 +28,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
+import static com.example.blink22.todo.Util.CommonUtils.formatDate;
+
 public class TodoFragment extends Fragment implements DetailsView {
 
     private static final String ARG_TODO_ID = "todo_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0 ;
-    public static final String EASY_DATE_FORMAT = "EEEE, MMMM dd, yyyy";
 
     @Inject
     DetailsPresenter<DetailsView> mPresenter;
@@ -51,11 +48,16 @@ public class TodoFragment extends Fragment implements DetailsView {
 
     @OnTextChanged(value = R.id.todo_title_edit_text, callback =  OnTextChanged.Callback.TEXT_CHANGED)
     void titleTextChanged(Editable editable){
-
+        mTodo.setTitle(editable.toString());
     }
 
     @BindView(R.id.todo_desc_edit_text)
     EditText mDescEditText;
+
+    @OnTextChanged(value = R.id.todo_desc_edit_text, callback = OnTextChanged.Callback.TEXT_CHANGED)
+    void descTextChanged(Editable editable){
+        mTodo.setDescription(editable.toString());
+    }
 
     @BindView(R.id.todo_date_button)
     Button mDateButton;
@@ -73,8 +75,7 @@ public class TodoFragment extends Fragment implements DetailsView {
 
     @OnClick(R.id.todo_done_button)
     public void onDoneClick(){
-        Log.d("fuck", "ACTING UPON THE CLICK LISTENER => TODO ="+mTodo);
-        mPresenter.doneTodo(mTodo,mTodoExists);
+        mPresenter.saveTodo(mTodo,mTodoExists);
     }
 
     @OnClick(R.id.todo_date_button)
@@ -94,40 +95,6 @@ public class TodoFragment extends Fragment implements DetailsView {
         ButterKnife.bind(this, v);
         mPresenter.prepareTodoView(mTodoId);
 
-        mTitleEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mTodo.setTitle(charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        mDescEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mTodo.setDescription(charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
         return v;
     }
 
@@ -145,6 +112,20 @@ public class TodoFragment extends Fragment implements DetailsView {
         }
     }
 
+    @Override
+    public void showWait() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideWait() {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showConnectionErrorToast() {
+        Toast.makeText(this.getContext(), R.string.loading_error_text, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void setTodoTitleEditText(String title) {
@@ -181,6 +162,12 @@ public class TodoFragment extends Fragment implements DetailsView {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDetach();
+    }
+
     public static TodoFragment newInstance(String todoId){
         TodoFragment fragment = new TodoFragment();
         if(todoId!=null){
@@ -191,29 +178,9 @@ public class TodoFragment extends Fragment implements DetailsView {
         return fragment;
     }
 
-    private CharSequence formatDate(Date date){
-        return DateFormat.format(EASY_DATE_FORMAT,date);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.onDetach();
-    }
-
     public void prepare(Todo todo) {
         mTodo = todo;
         mTodoExists = (mTodo.getTitle() != null);
-    }
-
-    @Override
-    public void showWait() {
-        mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void HideWait() {
-        mProgressBar.setVisibility(View.GONE);
     }
 
 }
