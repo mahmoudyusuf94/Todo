@@ -27,6 +27,7 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
         Log.i("fuck", "Called prepare with todoid = "+ todoId );
         Log.i("fuck", "Testing dataManager =>>>>>" + mDataManager);
         if(todoId!=null){
+            getMvpView().showWait();
             mDataManager.getTodo(todoId, new OnTaskComplete() {
                 @Override
                 public void onSuccess(List<Todo> todoList) {
@@ -41,6 +42,7 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
                         Log.i("fuck", "Get Succedded, but todo=null");
                         getMvpView().prepare(new Todo());
                     }
+                    getMvpView().HideWait();
                 }
 
                 @Override
@@ -64,13 +66,13 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
 
     @Override
     public void doneTodo(Todo todo, boolean exists) {
-        getMvpView().showWait();
+//        getMvpView().showWait();
         if(exists){
             mDataManager.updateTodo(todo, new OnTaskComplete() {
                 @Override
                 public void onSuccess(List<Todo> todoList) {
-                    getMvpView().HideWait();
-                    getMvpView().cancel();
+//                    getMvpView().HideWait();
+//                    getMvpView().cancel();
                 }
 
                 @Override
@@ -78,13 +80,15 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
 
                 }
             });
+            getMvpView().cancel();
+
         }else{
             Log.i("fuck", "CALLING INSERT TODO FROM PRESENTER => TODO = " +todo);
             mDataManager.insertTodo(todo, new OnTaskComplete() {
                 @Override
                 public void onSuccess(List<Todo> todoList) {
-                    getMvpView().HideWait();
-                    getMvpView().cancel();
+//                    getMvpView().HideWait();
+//                    getMvpView().cancel();
                 }
 
                 @Override
@@ -92,6 +96,8 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
 
                 }
             });
+            getMvpView().cancel();
+
         }
 
     }

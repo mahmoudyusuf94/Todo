@@ -72,12 +72,12 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
 
     @Override
     public void deleteTodo(Todo todo) {
-        getMvpView().showWait();
+//        getMvpView().showWait();
         mDataManager.deleteTodo(todo.getId(), new OnTaskComplete() {
             @Override
             public void onSuccess(List<Todo> todoList) {
-                getMvpView().hideWait();
-                notifyDataChanged();
+//                getMvpView().hideWait();
+//                notifyDataChanged();
             }
 
             @Override
@@ -85,12 +85,13 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
 
             }
         });
+        notifyDataChanged();
     }
 
     @Override
     public void doneTodo(String todoId, final TodoAdapter.TodoHolder todoHolder) {
 
-        getMvpView().showWait();
+//        getMvpView().showWait();
         mDataManager.getTodo(todoId, new OnTaskComplete() {
 
             @Override
@@ -100,8 +101,8 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
                 mDataManager.updateTodo(todo, new OnTaskComplete() {
                     @Override
                     public void onSuccess(List<Todo> todoList) {
-                        getMvpView().hideWait();
-                        todoHolder.markDone();
+//                        getMvpView().hideWait();
+//                        todoHolder.markDone();
                     }
 
                     @Override
@@ -109,6 +110,7 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
 
                     }
                 });
+
 
             }
 
@@ -118,11 +120,13 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
             }
 
         });
+        todoHolder.markDone();
+
     }
 
     @Override
     public void undoneTodo(String todoId, final TodoAdapter.TodoHolder todoHolder) {
-        getMvpView().showWait();
+//        getMvpView().showWait();
         mDataManager.getTodo(todoId, new OnTaskComplete() {
             @Override
             public void onSuccess(List<Todo> todoList) {
@@ -131,8 +135,8 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
                 mDataManager.updateTodo(todo, new OnTaskComplete() {
                     @Override
                     public void onSuccess(List<Todo> todoList) {
-                        getMvpView().hideWait();
-                        todoHolder.markUndone();
+//                        getMvpView().hideWait();
+//                        todoHolder.markUndone();
 
                     }
 
@@ -142,6 +146,7 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
                     }
                 });
 
+
             }
 
             @Override
@@ -149,6 +154,7 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
 
             }
         });
+        todoHolder.markUndone();
 
     }
 

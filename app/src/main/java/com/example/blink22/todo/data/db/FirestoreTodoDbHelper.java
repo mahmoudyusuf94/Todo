@@ -43,7 +43,7 @@ public class FirestoreTodoDbHelper implements DbHelper {
                         result.add(document.toObject(Todo.class));
                     }
                 }
-                Log.i("fuck", "From insert, result is => " +result.size());
+                Log.i("fuck", "From get all , result is => " +result.size());
                 callback.onSuccess(result);
             }
         });
