@@ -2,7 +2,7 @@ package com.example.blink22.todo.ui.TodoList;
 
 import com.example.blink22.todo.ui.base.MvpView;
 
-public interface ListView extends MvpView{
+public interface TodoListView extends MvpView{
 
     void updateAdapter();
 
@@ -11,4 +11,6 @@ public interface ListView extends MvpView{
     void hideWait();
 
     void showConnectionErrorToast();
+
+    void openNewTodoActivity();
 }

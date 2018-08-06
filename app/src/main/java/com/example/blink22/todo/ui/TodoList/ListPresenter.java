@@ -5,15 +5,15 @@ import android.content.Context;
 import com.example.blink22.todo.data.model.Todo;
 import com.example.blink22.todo.ui.base.MvpPresenter;
 
-public interface ListPresenter<V extends ListView> extends MvpPresenter<V> {
+public interface ListPresenter<V extends TodoListView> extends MvpPresenter<V> {
 
     void notifyDataChanged();
 
-    void bindViewHolderWithPosition(TodoAdapter.TodoHolder todoHolder, int position);
+    void bindViewHolderWithPosition(Holder todoHolder, int position);
 
     int getTodoCount();
 
-    void showTodoDetails(Context context, String id);
+    void openTodoDetails(Context context, String id);
 
     void deleteTodo(Todo todo);
 
@@ -21,4 +21,5 @@ public interface ListPresenter<V extends ListView> extends MvpPresenter<V> {
 
     void undoneTodo(String todoId, TodoAdapter.TodoHolder todoHolder);
 
+    void fabClicked();
 }

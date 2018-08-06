@@ -2,6 +2,7 @@ package com.example.blink22.todo.ui.TodoList;
 
 import android.content.Context;
 import android.content.Intent;
+
 import com.example.blink22.todo.data.DataManager;
 import com.example.blink22.todo.data.db.OnTaskComplete;
 import com.example.blink22.todo.data.model.Todo;
@@ -15,11 +16,11 @@ import javax.inject.Inject;
 
 import static com.example.blink22.todo.Util.CommonUtils.formatDate;
 
-public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
+public class TodoListPresenter<V extends TodoListView>  extends BasePresenter<V>
         implements ListPresenter<V>{
 
-    DataManager mDataManager;
-    List<Todo> mTodos = new ArrayList<>();
+    private DataManager mDataManager;
+    private List<Todo> mTodos = new ArrayList<>();
 
     @Inject
     public TodoListPresenter(DataManager dataManager){
@@ -95,7 +96,12 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
 
     }
 
-    public void bindViewHolderWithPosition(TodoAdapter.TodoHolder todoHolder, int position) {
+    @Override
+    public void fabClicked() {
+        getMvpView().openNewTodoActivity();
+    }
+
+    public void bindViewHolderWithPosition(Holder todoHolder, int position) {
         Todo todo = mTodos.get(position);
 
         todoHolder.setTitle(todo.getTitle());
@@ -113,7 +119,7 @@ public class TodoListPresenter<V extends ListView>  extends BasePresenter<V>
         return mTodos.size();
     }
 
-    public void showTodoDetails(Context context, String id) {
+    public void openTodoDetails(Context context, String id) {
         Intent intent = TodoActivity.newIntent(context, id);
         context.startActivity(intent);
     }

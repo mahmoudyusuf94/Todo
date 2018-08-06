@@ -9,7 +9,7 @@ import java.util.Date;
 
 public interface DetailsPresenter<V extends DetailsView> extends MvpPresenter<V> {
 
-    void prepareTodoView(String todoId);
+    void loadSavedTodo(String todoId);
 
     void cancelTodo();
 

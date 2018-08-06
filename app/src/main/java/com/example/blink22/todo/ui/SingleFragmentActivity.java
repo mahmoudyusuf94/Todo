@@ -41,10 +41,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
     Toolbar mToolbar;
 
     protected abstract Fragment createFragment();
-    private ActivityComponent mActivityComponent;
 
-    @Inject
-    MainPresenter<MainView> mPresenter;
+    private ActivityComponent mActivityComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +55,28 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
                         DaggerApplicationComponent.builder().contextModule(new ContextModule(this)
                         ).build())
                 .build();
-        mActivityComponent.inject(this);
-        mPresenter.onAttach(this);
 
         ButterKnife.bind(this);
+
+        prepareNavigationView();
+
+        prepareFragment();
+
+    }
+
+    private void prepareFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+
+        if (fragment == null){
+            fragment = createFragment();
+            fm.beginTransaction()
+                    .add(R.id.fragment_container, fragment)
+                    .commit();
+        }
+    }
+
+    private void prepareNavigationView() {
 
         setSupportActionBar(mToolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -74,26 +90,16 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
                         mDrawerLayout.closeDrawers();
                         switch(menuItem.getItemId()){
                             case R.id.menu_item_add_todo:
-                                mPresenter.addTodoSelected();
+                                showAddTodo();
                                 break;
                             case R.id.menu_item_list_todo:
-                                mPresenter.listTodoSelected();
+                                showTodoList();
                                 break;
                         }
                         return true;
                     }
                 }
         );
-
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
-
-        if (fragment == null){
-            fragment = createFragment();
-            fm.beginTransaction()
-                    .add(R.id.fragment_container, fragment)
-                    .commit();
-        }
     }
 
     @Override
@@ -108,12 +114,12 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
 
 
     public void showTodoList(){
-        Intent intent = new Intent(this, TodoListActivity.class);
+        Intent intent = TodoListActivity.newIntent(this);
         startActivity(intent);
     }
 
     public void showAddTodo(){
-        Intent intent = new Intent(this, TodoActivity.class);
+        Intent intent = TodoActivity.newIntent(this);
         startActivity(intent);
     }
 

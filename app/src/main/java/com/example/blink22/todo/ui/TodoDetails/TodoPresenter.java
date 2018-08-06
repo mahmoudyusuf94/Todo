@@ -23,7 +23,7 @@ public class TodoPresenter<V extends DetailsView> extends BasePresenter<V>
     }
 
     @Override
-    public void prepareTodoView(String todoId) {
+    public void loadSavedTodo(String todoId) {
         if(todoId!=null){
             getMvpView().showWait();
             mDataManager.getTodo(todoId, new OnTaskComplete() {

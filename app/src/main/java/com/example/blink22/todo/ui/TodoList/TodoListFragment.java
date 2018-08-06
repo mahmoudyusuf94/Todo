@@ -23,10 +23,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TodoListFragment extends Fragment implements ListView{
+public class TodoListFragment extends Fragment implements TodoListView {
 
     @Inject
-    ListPresenter<ListView> mTodoListPresenter;
+    ListPresenter<TodoListView> mTodoListPresenter;
 
     @Inject
     LinearLayoutManager mLinearLayoutManager;
@@ -42,8 +42,7 @@ public class TodoListFragment extends Fragment implements ListView{
 
     @OnClick(R.id.todo_list_fab)
     void fabClicked(){
-        Intent intent = new Intent(getContext(), TodoActivity.class);
-        startActivity(intent);
+        mTodoListPresenter.fabClicked();
     }
 
     TodoAdapter mAdapter;
@@ -107,5 +106,11 @@ public class TodoListFragment extends Fragment implements ListView{
     @Override
     public void showConnectionErrorToast() {
         Toast.makeText(this.getContext(), R.string.loading_error_text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void openNewTodoActivity() {
+        Intent intent = TodoActivity.newIntent(getContext());
+        startActivity(intent);
     }
 }

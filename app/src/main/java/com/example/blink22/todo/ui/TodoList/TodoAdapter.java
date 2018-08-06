@@ -123,7 +123,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>{
 
         @Override
         public void onClick(View view) {
-            mPresenter.showTodoDetails(view.getContext(), mTodo.getId());
+            mPresenter.openTodoDetails(view.getContext(), mTodo.getId());
         }
     }
 

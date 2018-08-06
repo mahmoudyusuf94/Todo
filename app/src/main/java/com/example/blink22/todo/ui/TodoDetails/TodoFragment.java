@@ -34,7 +34,17 @@ public class TodoFragment extends Fragment implements DetailsView {
 
     private static final String ARG_TODO_ID = "todo_id";
     private static final String DIALOG_DATE = "DialogDate";
-    private static final int REQUEST_DATE = 0 ;
+    private static final int REQUEST_DATE = 0;
+
+    public static TodoFragment newInstance(String todoId) {
+        TodoFragment fragment = new TodoFragment();
+        if (todoId != null) {
+            Bundle args = new Bundle();
+            args.putString(ARG_TODO_ID, todoId);
+            fragment.setArguments(args);
+        }
+        return fragment;
+    }
 
     @Inject
     DetailsPresenter<DetailsView> mPresenter;
@@ -46,8 +56,8 @@ public class TodoFragment extends Fragment implements DetailsView {
     @BindView(R.id.todo_title_edit_text)
     EditText mTitleEditText;
 
-    @OnTextChanged(value = R.id.todo_title_edit_text, callback =  OnTextChanged.Callback.TEXT_CHANGED)
-    void titleTextChanged(Editable editable){
+    @OnTextChanged(value = R.id.todo_title_edit_text, callback = OnTextChanged.Callback.TEXT_CHANGED)
+    void titleTextChanged(Editable editable) {
         mTodo.setTitle(editable.toString());
     }
 
@@ -55,7 +65,7 @@ public class TodoFragment extends Fragment implements DetailsView {
     EditText mDescEditText;
 
     @OnTextChanged(value = R.id.todo_desc_edit_text, callback = OnTextChanged.Callback.TEXT_CHANGED)
-    void descTextChanged(Editable editable){
+    void descTextChanged(Editable editable) {
         mTodo.setDescription(editable.toString());
     }
 
@@ -69,17 +79,17 @@ public class TodoFragment extends Fragment implements DetailsView {
     ProgressBar mProgressBar;
 
     @OnClick(R.id.todo_cancel_button)
-    public void onCancelClick(){
+    public void onCancelClick() {
         mPresenter.cancelTodo();
     }
 
     @OnClick(R.id.todo_done_button)
-    public void onDoneClick(){
-        mPresenter.saveTodo(mTodo,mTodoExists);
+    public void onDoneClick() {
+        mPresenter.saveTodo(mTodo, mTodoExists);
     }
 
     @OnClick(R.id.todo_date_button)
-    public void onDateClick(){
+    public void onDateClick() {
         FragmentManager manager = getFragmentManager();
         DatePickerFragment dialog = DatePickerFragment.newInstance(mTodo.getDate());
         dialog.setTargetFragment(TodoFragment.this, REQUEST_DATE);
@@ -93,7 +103,7 @@ public class TodoFragment extends Fragment implements DetailsView {
         View v = inflater.inflate(R.layout.fragment_todo, container, false);
 
         ButterKnife.bind(this, v);
-        mPresenter.prepareTodoView(mTodoId);
+        mPresenter.loadSavedTodo(mTodoId);
 
         return v;
     }
@@ -102,12 +112,12 @@ public class TodoFragment extends Fragment implements DetailsView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-        ((TodoActivity)getActivity()).getActivityComponent().inject(this);
+        ((TodoActivity) getActivity()).getActivityComponent().inject(this);
 
         mPresenter.onAttach(this);
         Bundle args = getArguments();
 
-        if(args != null){
+        if (args != null) {
             mTodoId = getArguments().getString(ARG_TODO_ID);
         }
     }
@@ -134,7 +144,7 @@ public class TodoFragment extends Fragment implements DetailsView {
 
     @Override
     public void setTodoDescEditText(String desc) {
-        if(desc!=null){
+        if (desc != null) {
             mDescEditText.setText(desc);
         }
     }
@@ -151,10 +161,10 @@ public class TodoFragment extends Fragment implements DetailsView {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != Activity.RESULT_OK){
+        if (resultCode != Activity.RESULT_OK) {
             return;
         }
-        if(requestCode == REQUEST_DATE){
+        if (requestCode == REQUEST_DATE) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mTodo.setDate(date);
             mPresenter.updateDateButton(date);
@@ -166,16 +176,6 @@ public class TodoFragment extends Fragment implements DetailsView {
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDetach();
-    }
-
-    public static TodoFragment newInstance(String todoId){
-        TodoFragment fragment = new TodoFragment();
-        if(todoId!=null){
-            Bundle args = new Bundle();
-            args.putString(ARG_TODO_ID, todoId);
-            fragment.setArguments(args);
-        }
-        return fragment;
     }
 
     public void prepare(Todo todo) {

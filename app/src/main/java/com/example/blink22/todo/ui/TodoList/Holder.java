@@ -15,5 +15,4 @@ public interface Holder {
     void markDone();
 
     void markUndone();
-
 }

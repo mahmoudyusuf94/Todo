@@ -17,6 +17,10 @@ public class TodoActivity extends SingleFragmentActivity {
     private static final String EXTRA_TODO_ID = "com.example.blink22.todo.extra_todo_id";
     private String mTodoId;
 
+    public static Intent newIntent(Context context) {
+        return new Intent(context, TodoActivity.class);
+    }
+
     @Override
     protected Fragment createFragment() {
         mTodoId = getIntent().getStringExtra(EXTRA_TODO_ID);
