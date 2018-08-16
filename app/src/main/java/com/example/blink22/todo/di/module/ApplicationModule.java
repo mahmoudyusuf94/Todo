@@ -1,6 +1,7 @@
 package com.example.blink22.todo.di.module;
 
 import android.content.Context;
+import android.support.test.espresso.idling.CountingIdlingResource;
 
 import com.example.blink22.todo.data.DataManager;
 import com.example.blink22.todo.data.TodoDataManager;
@@ -44,5 +45,11 @@ public class ApplicationModule {
     @FirestoreDbHelper
     public DbHelper getFirestoreDbHelper(){
         return new FirestoreTodoDbHelper();
+    }
+
+    @Provides
+    @Singleton
+    public CountingIdlingResource IdlingResource(){
+        return new CountingIdlingResource("TodoApp");
     }
 }

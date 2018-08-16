@@ -1,5 +1,6 @@
 package com.example.blink22.todo.data;
 
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.util.Log;
 
 import com.example.blink22.todo.data.db.OnTaskComplete;
@@ -7,6 +8,7 @@ import com.example.blink22.todo.data.model.Todo;
 import com.example.blink22.todo.data.db.DbHelper;
 
 import java.util.List;
+
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

@@ -26,18 +26,18 @@ public class TodoListPresenter<V extends TodoListView>  extends BasePresenter<V>
     public TodoListPresenter(DataManager dataManager){
         mDataManager = dataManager;
 
-        mDataManager.getAllTodos(new OnTaskComplete() {
-            @Override
-            public void onSuccess(List<Todo> todoList) {
-                mTodos = todoList;
-                notifyDataChanged();
-            }
-
-            @Override
-            public void onFail() {
-                getMvpView().showConnectionErrorToast();
-            }
-        });
+//        mDataManager.getAllTodos(new OnTaskComplete() {
+//            @Override
+//            public void onSuccess(List<Todo> todoList) {
+//                mTodos = todoList;
+//                notifyDataChanged();
+//            }
+//
+//            @Override
+//            public void onFail() {
+//                getMvpView().showConnectionErrorToast();
+//            }
+//        });
     }
 
     @Override
@@ -64,13 +64,17 @@ public class TodoListPresenter<V extends TodoListView>  extends BasePresenter<V>
             @Override
             public void onFail() {
                 todoHolder.markUndone();
-                getMvpView().showConnectionErrorToast();
+                if(isViewActive()){
+                    getMvpView().showConnectionErrorToast();
+                }
+
             }
 
         });
         todoHolder.markDone();
 
     }
+
 
     @Override
     public void undoneTodo(String todoId, final TodoAdapter.TodoHolder todoHolder) {
@@ -89,7 +93,9 @@ public class TodoListPresenter<V extends TodoListView>  extends BasePresenter<V>
             @Override
             public void onFail() {
                 todoHolder.markDone();
-                getMvpView().showConnectionErrorToast();
+                if(isViewActive()){
+                    getMvpView().showConnectionErrorToast();
+                }
             }
         });
         todoHolder.markUndone();
@@ -98,7 +104,9 @@ public class TodoListPresenter<V extends TodoListView>  extends BasePresenter<V>
 
     @Override
     public void fabClicked() {
-        getMvpView().openNewTodoActivity();
+        if(isViewActive()){
+            getMvpView().openNewTodoActivity();
+        }
     }
 
     public void bindViewHolderWithPosition(Holder todoHolder, int position) {
@@ -125,20 +133,30 @@ public class TodoListPresenter<V extends TodoListView>  extends BasePresenter<V>
     }
 
     public void notifyDataChanged() {
-        getMvpView().showWait();
+        if(isViewActive()){
+            getMvpView().showWait();
+        }
         mDataManager.getAllTodos(new OnTaskComplete() {
             @Override
             public void onSuccess(List<Todo> todoList) {
                 mTodos = todoList;
-                getMvpView().updateAdapter();
-                getMvpView().hideWait();
+                if(isViewActive()){
+                    getMvpView().updateAdapter();
+                    getMvpView().hideWait();
+                }
             }
 
             @Override
             public void onFail() {
-                getMvpView().showConnectionErrorToast();
+                if(isViewActive()){
+                    getMvpView().showConnectionErrorToast();
+                }
             }
         });
 
+    }
+
+    private boolean isViewActive() {
+        return getMvpView() != null;
     }
 }

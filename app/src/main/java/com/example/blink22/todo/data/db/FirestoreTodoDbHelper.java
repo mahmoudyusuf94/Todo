@@ -1,8 +1,10 @@
 package com.example.blink22.todo.data.db;
 
 import android.support.annotation.NonNull;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.util.Log;
 
+import com.example.blink22.todo.Util.TodoCountingIdlingResource;
 import com.example.blink22.todo.data.model.Todo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,6 +35,7 @@ public class FirestoreTodoDbHelper implements DbHelper {
 
     @Override
     public void getAllTodos(final OnTaskComplete callback) {
+        TodoCountingIdlingResource.increment();
         db.collection(TODO_COLLECTION_NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -43,6 +46,7 @@ public class FirestoreTodoDbHelper implements DbHelper {
                     }
                 }
                 callback.onSuccess(result);
+                TodoCountingIdlingResource.decrement();
             }
         });
     }
@@ -51,7 +55,7 @@ public class FirestoreTodoDbHelper implements DbHelper {
     public void getTodo(String id, final OnTaskComplete callback) {
 
         DocumentReference docRef = db.collection(TODO_COLLECTION_NAME).document(id);
-
+        TodoCountingIdlingResource.increment();
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -65,23 +69,30 @@ public class FirestoreTodoDbHelper implements DbHelper {
                 }else{
                     callback.onFail();
                 }
+                TodoCountingIdlingResource.decrement();
             }
         });
     }
 
     @Override
     public void updateTodo(Todo todo) {
+        TodoCountingIdlingResource.increment();
         db.collection(TODO_COLLECTION_NAME).document(todo.getId()).set(todo);
+        TodoCountingIdlingResource.decrement();
     }
 
     @Override
     public void insertTodo(Todo todo) {
+        TodoCountingIdlingResource.increment();
         db.collection(TODO_COLLECTION_NAME).document(todo.getId()).set(todo);
+        TodoCountingIdlingResource.decrement();
     }
 
     @Override
     public void deleteTodo(String todoId) {
+        TodoCountingIdlingResource.increment();
         db.collection(TODO_COLLECTION_NAME).document(todoId).delete();
+        TodoCountingIdlingResource.decrement();
     }
 
     @Override
