@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">ToDo</string>
+    <string name="menu_item_list_todos">List all Todos</string>
+    <string name="menu_item_add_todo">Add new Todo</string>
+    <string name="drawer_navigation_header_title">To-Do List</string>
+    <string name="todo_title_label">Todo Title:</string>
+    <string name="todo_title_edit_text_hint">Todo Title. e.g. Do the maths homework</string>
+    <string name="todo_desc_label">Todo Describtion:</string>
+    <string name="todo_desc_edit_text_hint">Todo description. e.g. Solve chapter 1 and chapter 2 exercises.</string>
+    <string name="todo_date_button_text">Add Date</string>
+    <string name="todo_cancel_button_text">Cancel</string>
+    <string name="todo_done_button_text">Done</string>
+    <string name="date_picker_title">Select Date:</string>
+    <string name="loading_error_text">Network Error! Please Try Again Later.</string>
 </resources>
